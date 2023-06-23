@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, Table, Row } from 'react-native'
+import { View, Text, StyleSheet ,Button } from 'react-native'
 import React, { useState, useRef } from 'react'
 import DacHead from '../componenents/DacHead'
 import { SafeAreaView, ScrollView } from 'react-native-web';
@@ -12,6 +12,13 @@ export default function DacPage() {
         <View style={styles.container}>
             <DacHead />
             <DacTable/>
+            <Button
+                // onPress={save()}
+                title="Enregistrer"
+                color="blue"
+                accessibilityLabel="Learn more about this purple button"
+                style={styles.btn}
+            />
         </View>
     );
 };
@@ -21,4 +28,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
     },
+    btn:{
+        marginTop:2,
+    }
 });
