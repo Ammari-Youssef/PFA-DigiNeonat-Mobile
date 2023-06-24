@@ -15,9 +15,9 @@ export default function DacPage() {
             <Button
                 // onPress={save()}
                 title="Enregistrer"
-                color="blue"
+                buttonStyle={styles.button}
+                titleStyle={styles.buttonText}
                 accessibilityLabel="Learn more about this purple button"
-                style={styles.btn}
             />
         </View>
     );
@@ -28,7 +28,13 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
     },
-    btn:{
-        marginTop:2,
-    }
+    button: {
+        backgroundColor: 'cyan',
+        borderRadius: 8,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
 });

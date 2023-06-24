@@ -1,6 +1,7 @@
 //navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+// import { useNavigation } from '@react-navigation/native';
 //composants
 import AllaitementPage from './pages/AllaitementPage';
 import UpdatePatientStatePage from './pages/UpdatePatientStatePage';
@@ -8,16 +9,18 @@ import DacPage from './pages/DacPage';
 import DashboardPage from './pages/DashboardPage';
 import LoginPage from './pages/LoginPage';
 
-//Hooks
-import { useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-paper';
+import { Feather } from '@expo/vector-icons'; 
+//Hooks
+import { useState } from 'react';
 
 const Stack = createStackNavigator();
 
 function App() {
 
   const [isLoggedIn, setLoggedIn] = useState(false);
+  // const navigation = useNavigation()
 
   // Function to handle login
   const handleLogin = () => {
@@ -38,12 +41,17 @@ function App() {
               title: 'Annexes du patient',
               headerTitleAlign: 'center',
 
-              headerLeft: null,
-              headerRight: () => (
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <TouchableOpacity onPress={() => console.log('Avatar pressed')}>
+              headerLeft: ()=>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <TouchableOpacity >
                     <Avatar.Image size={24} source={require('./assets/avatar.png')} />
                   </TouchableOpacity>
+              </View>,
+              headerRight: () => (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TouchableOpacity >
+                    <Feather name="settings" size={24} color="black" />
+                </TouchableOpacity>
                 </View>
               )
             }} />

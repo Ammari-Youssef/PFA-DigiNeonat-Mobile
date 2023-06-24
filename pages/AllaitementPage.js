@@ -114,7 +114,8 @@ export default function AllaitementPage() {
       <Button
         // onPress={save()}
         title="Enregistrer"
-        color="blue"
+        buttonStyle={styles.button}
+        titleStyle={styles.buttonText}
         accessibilityLabel="Learn more about this purple button"
       />
     </View>
@@ -173,6 +174,15 @@ const styles = StyleSheet.create({
   },
   qtyInputGreen: {
     backgroundColor: 'green',
+  },
+  button: {
+    backgroundColor: 'cyan',
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
