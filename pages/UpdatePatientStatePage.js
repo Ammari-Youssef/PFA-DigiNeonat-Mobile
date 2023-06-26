@@ -1,10 +1,27 @@
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
-import React from 'react';
+import React ,{useState , useEffect} from 'react';
 import UpdatePatientStateHead from '../componenents/UpdatePatientStateHead';
 import { Table, Row, Rows } from 'react-native-table-component';
+import axios from 'axios';
+
 
 export default function UpdatePatientStatePage() {
 
+    const [mother, setMother] = useState('');
+
+    useEffect(() => {
+        axios.get('http://localhost:4430/api/docs')
+            .then(response => {
+                const data = response.data;
+                if (data.length > 0) {
+                    const firstRow = data[0];
+                    setMother(firstRow.motherName);
+                }
+            })
+            .catch(error => {
+                console.error('Error retrieving data:', error);
+            });
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -16,7 +33,9 @@ export default function UpdatePatientStatePage() {
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.headerCell}>Mère</Text>
-                    <TextInput style={styles.cell} placeholder="Généré du Dossier (Backend)" />
+                    <Text style={styles.headerCell}>{mother}</Text>
+
+                    {/* <TextInput style={styles.cell} placeholder="Généré du Dossier (Backend)" /> */}
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.headerCell}>Hospitalisé pour :</Text>
