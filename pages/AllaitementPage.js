@@ -1,6 +1,6 @@
-import React, { useState ,useRef ,useEffect} from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput, Picker,Animated, Button } from 'react-native';
-import AllaitementHead from '../componenents/AllaitementHead'
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, TextInput, Picker, Animated, Button } from 'react-native';
+import AllaitementHead from '../components/AllaitementHead'
 import MySQLService from '../services/MySQLServices';
 export default function AllaitementPage() {
 
@@ -16,23 +16,23 @@ export default function AllaitementPage() {
   ]);
 
   const [qty, setQty] = useState()
-  
+
 
   const [focusedInputs, setFocusedInputs] = useState([]);
 
   const handleFocus = (index) => {
     setFocusedInputs((prevInputs) => [...prevInputs, index]);
-    
+
   };
 
   const handleBlur = (index) => {
     setFocusedInputs((prevInputs) =>
       prevInputs.filter((inputIndex) => inputIndex !== index)
     );
-   
+
   };
 
-  
+
 
   //Fontion qui recupere la quantité de l'entête et passer comme props dans le composant enfant suffixé par Head
   const getQuantityValue = (v) => {
@@ -53,15 +53,15 @@ export default function AllaitementPage() {
   const renderItem = ({ item, index }) => {
     const isFocused = focusedInputs.includes(index);
     const isQtyEqual = item.quantite == qty;
-    
+
     const containerStyle = getContainerStyle(isQtyEqual);
     const inputStyle = [
       styles.column,
       styles.input,
       isFocused && containerStyle,
-      
+
     ];
-    
+
 
     return (
       <Animated.View style={[styles.row, isFocused && containerStyle]}>

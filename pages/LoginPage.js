@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
 import React from 'react'
 
-import LoginForm from '../componenents/Login'
+import LoginForm from '../components/Login'
 
 export default function LoginPage(props) {
   const handleLogin = props.route.params.handleLogin;

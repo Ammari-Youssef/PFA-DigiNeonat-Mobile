@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
-import React ,{useState , useEffect} from 'react';
-import UpdatePatientStateHead from '../componenents/UpdatePatientStateHead';
+import React, { useState, useEffect } from 'react';
+import UpdatePatientStateHead from '../components/UpdatePatientStateHead';
 import { Table, Row, Rows } from 'react-native-table-component';
 import axios from 'axios';
 
