@@ -9,6 +9,7 @@ import UpdatePatientStatePage from './pages/UpdatePatientStatePage';
 import DacPage from './pages/DacPage';
 import DashboardPage from './pages/DashboardPage';
 import LoginPage from './pages/LoginPage';
+import InterfaceMesure from './pages/InterfaceMesure';
 
 
 import { View, TouchableOpacity } from 'react-native';
@@ -64,6 +65,7 @@ function App() {
               title: 'Fiche d\'allaitement journalière',
             }} />
             <Stack.Screen name="DAC" component={DacPage} options={{ title: 'Fiche de surveillance D.A.C', }} />
+            <Stack.Screen name="Mesure" component={InterfaceMesure} options={{ title: 'Fiche des mesures', }} />
 
             {/* <Stack.Screen name="Mesures" component={MesurePage} options={{ title: 'Mesure Page' }} />  */}
 

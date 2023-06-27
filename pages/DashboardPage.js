@@ -15,7 +15,7 @@ export default function Dashboard() {
     { title: 'Fiche d\'allaitement journalière', screen: 'Allaitement' , icon: require("../assets/Allaitement.png") },
     { title: 'Fiche de surveillance journalière', screen: 'Surveillance' , icon: require('../assets/surveillance.png') },
     { title: 'Fiche de surveillance D.A.C', screen: 'DAC' , icon: require('../assets/dac.png') },
-    { title: 'Fiche des mesures finales', screen: 'Mesure' , icon: require('../assets/mesure.png') },
+    { title: 'Fiche des mesures', screen: 'Mesure' , icon: require('../assets/mesure.png') },
     // Add more pages as needed
   ];
     
