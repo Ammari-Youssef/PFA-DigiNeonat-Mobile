@@ -5,7 +5,6 @@ import { TouchableOpacity } from 'react-native'
 
 import { Card, Title } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Button } from 'react-native-web';
 
 
 export default function Dashboard() {
@@ -14,16 +13,10 @@ export default function Dashboard() {
   const pages = [
     { title: 'Fiche journalière de mise à jour du patient', screen: 'Update' , icon: require('../assets/update.png') }, 
     { title: 'Fiche d\'allaitement journalière', screen: 'Allaitement' , icon: require("../assets/Allaitement.png") },
+    { title: 'Fiche de surveillance journalière', screen: 'Surveillance' , icon: require('../assets/surveillance.png') },
     { title: 'Fiche de surveillance D.A.C', screen: 'DAC' , icon: require('../assets/dac.png') },
+    { title: 'Fiche des mesures finales', screen: 'Mesure' , icon: require('../assets/mesure.png') },
     // Add more pages as needed
-  ];
-
-  const components = [
-    { title: 'Component 1', iconName: 'home' },
-    { title: 'Component 2', iconName: 'account' },
-    { title: 'Component 3', iconName: 'bell' },
-    { title: 'Component 4', iconName: 'calendar' },
-    { title: 'Component 5', iconName: 'settings' },
   ];
     
   const handlePagePress = (screen) => {
