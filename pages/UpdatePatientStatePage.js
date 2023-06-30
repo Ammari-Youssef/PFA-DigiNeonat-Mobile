@@ -24,8 +24,8 @@ export default function UpdatePatientStatePage() {
     }, []);
 
     return (
+        <ScrollView style={styles.container}>
         
-        <Scrool>
             <View style={styles.container}>
                 <UpdatePatientStateHead />
                 <View style={styles.table}>
@@ -73,7 +73,8 @@ export default function UpdatePatientStatePage() {
                     accessibilityLabel="Learn more about this purple button"
                 />
             </View>
-        </Scrool>
+        
+        </ScrollView>
     );
 }
 
