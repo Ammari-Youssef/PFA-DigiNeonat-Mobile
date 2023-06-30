@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import UpdatePatientStateHead from '../components/UpdatePatientStateHead';
 import { Table, Row, Rows } from 'react-native-table-component';
@@ -24,53 +24,56 @@ export default function UpdatePatientStatePage() {
     }, []);
 
     return (
-        <View style={styles.container}>
-            <UpdatePatientStateHead />
-            <View style={styles.table}>
-                <View style={styles.row}>
-                    <Text style={styles.headerCell}>N-Né</Text>
-                    <TextInput style={styles.cell} placeholder="Généré du Dossier (Backend)" />
+        
+        <Scrool>
+            <View style={styles.container}>
+                <UpdatePatientStateHead />
+                <View style={styles.table}>
+                    <View style={styles.row}>
+                        <Text style={styles.headerCell}>N-Né</Text>
+                        <TextInput style={styles.cell} placeholder="Généré du Dossier (Backend)" />
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.headerCell}>Mère</Text>
+                        <Text style={styles.headerCell}>{mother}</Text>
+    
+                        {/* <TextInput style={styles.cell} placeholder="Généré du Dossier (Backend)" /> */}
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.headerCell}>Hospitalisé pour :</Text>
+                        <TextInput style={styles.cell} placeholder="Généré du Dossier (Backend)" />
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.headerCell}>DAE et/ou Dc retenu</Text>
+                        <TextInput style={styles.cell} placeholder="à taper" />
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.headerCell}>Sur plan Rx</Text>
+                        <TextInput style={styles.cell} placeholder="Généré du Dossier (Backend)" />
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.headerCell}>Traitement</Text>
+                        <TextInput style={[styles.cell, styles.multilineCell]} placeholder="à taper" multiline />
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.headerCell}>Evolution</Text>
+                        <TextInput style={styles.cell} placeholder="à taper" />
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.headerCell}>Durant la garde</Text>
+                        <TextInput style={[styles.cell, styles.multilineCell]} placeholder="à taper" multiline />
+                    </View>
                 </View>
-                <View style={styles.row}>
-                    <Text style={styles.headerCell}>Mère</Text>
-                    <Text style={styles.headerCell}>{mother}</Text>
-
-                    {/* <TextInput style={styles.cell} placeholder="Généré du Dossier (Backend)" /> */}
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.headerCell}>Hospitalisé pour :</Text>
-                    <TextInput style={styles.cell} placeholder="Généré du Dossier (Backend)" />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.headerCell}>DAE et/ou Dc retenu</Text>
-                    <TextInput style={styles.cell} placeholder="à taper" />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.headerCell}>Sur plan Rx</Text>
-                    <TextInput style={styles.cell} placeholder="Généré du Dossier (Backend)" />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.headerCell}>Traitement</Text>
-                    <TextInput style={[styles.cell, styles.multilineCell]} placeholder="à taper" multiline />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.headerCell}>Evolution</Text>
-                    <TextInput style={styles.cell} placeholder="à taper" />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.headerCell}>Durant la garde</Text>
-                    <TextInput style={[styles.cell, styles.multilineCell]} placeholder="à taper" multiline />
-                </View>
+    
+                <Button
+                    // onPress={save()}
+                    title="Enregistrer"
+                    buttonStyle={styles.button}
+                    titleStyle={styles.buttonText}
+                    accessibilityLabel="Learn more about this purple button"
+                />
             </View>
-
-            <Button
-                // onPress={save()}
-                title="Enregistrer"
-                buttonStyle={styles.button}
-                titleStyle={styles.buttonText}
-                accessibilityLabel="Learn more about this purple button"
-            />
-        </View>
+        </Scrool>
     );
 }
 

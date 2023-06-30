@@ -9,6 +9,8 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/ngrok": "^4.1.0",
+    "@expo/webpack-config": "^18.0.1",
     "@react-native-picker/picker": "^2.4.10",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/drawer": "^6.6.2",
@@ -23,8 +25,8 @@
     "react-native-paper": "^5.8.0",
     "react-native-reanimated": "~2.14.4",
     "react-native-table-component": "^1.2.2",
-    "react-native-web": "~0.18.11",
-    "@expo/webpack-config": "^18.0.1"
+    "react-native-toast-message": "^2.1.6",
+    "react-native-web": "~0.18.11"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

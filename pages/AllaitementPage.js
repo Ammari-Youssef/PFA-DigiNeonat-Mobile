@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput, Animated, Button } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, Button, ScrollView } from 'react-native';
+import { Table, Row } from 'react-native-table-component';
+import { Picker } from '@react-native-picker/picker';
 import AllaitementHead from '../components/AllaitementHead'
-// import MySQLService from '../services/MySQLServices';
-import { Picker } from '@react-native-picker/picker'
-import { ScrollView } from 'react-native-gesture-handler';
-export default function AllaitementPage() {
 
+
+export default function AllaitementPage() {
   const [data, setData] = useState([
     { id: '1', heure: '08:00', quantite: '', residus: '' },
     { id: '2', heure: '11:00', quantite: '', residus: '' },
@@ -17,135 +17,116 @@ export default function AllaitementPage() {
     { id: '8', heure: '05:00', quantite: '', residus: '' },
   ]);
 
-  const [qty, setQty] = useState()
+  
 
+  const [qty, setQty] = useState();
 
-  const [focusedInputs, setFocusedInputs] = useState([]);
-
-  const handleFocus = (index) => {
-    setFocusedInputs((prevInputs) => [...prevInputs, index]);
-
+  const handleQtyChange = (text) => {
+    setQty(text);
   };
 
-  const handleBlur = (index) => {
-    setFocusedInputs((prevInputs) =>
-      prevInputs.filter((inputIndex) => inputIndex !== index)
-    );
-
-  };
-
-
-
-  //Fontion qui recupere la quantité de l'entête et passer comme props dans le composant enfant suffixé par Head
   const getQuantityValue = (v) => {
     setQty(v)
   };
 
-  const getContainerStyle = (v) => {
-    if (v == false) {
+  const getContainerStyle = (item) => {
+    if (item.quantite != '' && item.quantite != qty) {
       return styles.qtyInputRed;
-    } else if (v == true) {
-      return styles.qtyInputGreen;
-    } else {
-      return styles.qtyInputDefault;
     }
+    if (item.quantite == qty) return styles.qtyInputGreen;
+    else
+      return styles.qtyInputDefault;
   };
 
-
-  const renderItem = ({ item, index }) => {
-    const isFocused = focusedInputs.includes(index);
-    const isQtyEqual = item.quantite == qty;
-
-    const containerStyle = getContainerStyle(isQtyEqual);
-    const inputStyle = [
-      styles.column,
-      styles.input,
-      isFocused && containerStyle,
-
-    ];
-
+  const renderItem = ({ item }) => {
+    const containerStyle = getContainerStyle(item);
 
     return (
-      <Animated.View style={[styles.row, isFocused && containerStyle]}>
-        <Text style={styles.column}>{item.heure}</Text>
-        <TextInput
-          style={inputStyle}
-          keyboardType="numeric"
-          placeholder="Ècrivez la quantité"
-          onFocus={() => handleFocus(index)}
-          onBlur={() => handleBlur(index)}
-          onChangeText={(text) =>
-            setData((data) => {
-              const newData = [...data];
-              const itemIndex = newData.findIndex((i) => i.id === item.id);
-              newData[itemIndex].quantite = text;
-              return newData;
-            })
-          }
-        />
-        <Picker style={[styles.picker, isFocused && containerStyle]}>
-          <Picker.Item label="Oui" value="yes" />
-          <Picker.Item label="Non" value="no" />
-        </Picker>
-      </Animated.View>
+      <Row
+        style={containerStyle}
+        key={item.id}
+        data={[
+          item.heure,
+          <TextInput
+            style={[styles.input, containerStyle]}
+            keyboardType="numeric"
+            placeholder="Quantité en cc"
+            value={item.quantite}
+            onChangeText={(text) => {
+              setData((prevData) =>
+                prevData.map((prevItem) =>
+                  prevItem.id === item.id ? { ...prevItem, quantite: text } : prevItem
+                )
+              );
+            }}
+          />,
+          <Picker
+            style={[styles.picker ,]}
+            selectedValue={item.residus}
+            onValueChange={(value) => {
+              setData((prevData) =>
+                prevData.map((prevItem) =>
+                  prevItem.id === item.id ? { ...prevItem, residus: value } : prevItem
+                )
+              );
+            }}
+          >
+            <Picker.Item label="Oui" value="yes" />
+            <Picker.Item label="Non" value="no" />
+          </Picker>,
+        ]}
+        textStyle={styles.column}
+      />
     );
   };
 
+  const renderHeader = () => (
+    <Row
+      data={['Heure', 'Quantité en cc', 'Résidus']}
+      style={styles.head}
+      textStyle={styles.headText}
+    />
+  );
 
   return (
-
-    <ScrollView>
-    <View style={styles.container}>
-      {/* Entete de la fiche  */}
-
+    <ScrollView style={styles.container}>
 
       <AllaitementHead sendRecQuantityValue={(value) => getQuantityValue(value)} />
+      <View style={styles.container}>
+        {/* Table */}
+        <Table borderStyle={{ borderWidth: 1, borderColor: '#000' }}>
+          {renderHeader()}
+          {data.map((item) => renderItem({ item }))}
+        </Table>
 
-      {/* Tableau */}
-      <View style={styles.row}>
-        <Text style={styles.header}>Heure</Text>
-        <Text style={styles.header}>Quantité en cc</Text>
-        <Text style={styles.header}>Résidus ?</Text>
+        {/* Save Button */}
+        <Button
+          title="Enregistrer"
+          onPress={() => {
+            // Save logic
+          }}
+          buttonStyle={styles.button}
+          titleStyle={styles.buttonText}
+        />
       </View>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
-
-      <Button
-        // onPress={save()}
-        title="Enregistrer"
-        buttonStyle={styles.button}
-        titleStyle={styles.buttonText}
-        accessibilityLabel="Learn more about this purple button"
-      />
-    </View>
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    paddingTop: 30,
-    backgroundColor: "white"
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 1,
-    borderWidth: 1,
-    borderColor: 'black',
-    flex: 1,
-
-  },
-  header: {
-    fontWeight: '500',
-    flex: 1,
-    textAlign: 'center',
     padding: 5,
+    // paddingTop: 30,
+    backgroundColor: 'white',
+  },
+  head: {
+    height: 40,
+    backgroundColor: 'grey',
+  },
+  headText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   column: {
     flex: 1,
@@ -157,7 +138,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 5,
     paddingHorizontal: 10,
-    fontWeight: '500'
+    fontWeight: '500',
+    flex:1
   },
   picker: {
     borderWidth: 1,
@@ -165,15 +147,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     marginBottom: 10,
-    fontWeight: '500'
-
+    fontWeight: '500',
   },
   qtyInputDefault: {
     backgroundColor: 'white',
   },
   qtyInputRed: {
     backgroundColor: 'red',
-    fontSize: 16,
   },
   qtyInputGreen: {
     backgroundColor: 'green',
@@ -181,11 +161,11 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: 'cyan',
     borderRadius: 8,
+    marginTop: 20,
   },
   buttonText: {
     color: 'white',
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: 'bold',
   },
 });
-

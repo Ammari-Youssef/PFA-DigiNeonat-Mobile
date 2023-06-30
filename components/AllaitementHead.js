@@ -43,49 +43,20 @@ export default function AllaitementHead(props) {
     }
     //Données du dossier 
 
-    // useEffect(() => {
-    //     connection.connect((err) => {
-    //         if (err) {
-    //             console.error('Error connecting to MySQL:', err);
-    //         } else {
-    //             console.log('Connected to MySQL!');
 
-    //             // Retrieve data from the table
-    //             connection.query('SELECT motherName FROM patientrecords', (err, results) => {
-    //                 if (err) {
-    //                     console.error('Error executing query:', err);
-    //                 } else {
-    //                     console.log('Query results:', results);
-
-    //                     // Set the retrieved data in the state
-    //                     if (results.length > 0) {
-    //                         setMotherName(results[0].motherName);
-    //                     }
-    //                 }
-    //             });
-    //         }
-    //     });
-
-    //     // Cleanup the connection when component unmounts
-    //     return () => {
-    //         connection.end();
-    //     };
-    // }, []);
-
-    //
 
     return (
         <View style={styles.formContainer}>
             <View style={styles.row}>
                 <Text style={styles.label}>
                     Date:
-                    <TextInput
-                        style={styles.input}
-                        placeholder="jj/mm/aaaa"
-                        onChangeText={(text) => handleDateChange(text)}
-                        value={date}
-                    />
                 </Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="jj/mm/aaaa"
+                    onChangeText={(text) => handleDateChange(text)}
+                    value={date}
+                />
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>Né du madame: {motherName}</Text>
@@ -93,6 +64,8 @@ export default function AllaitementHead(props) {
             <View style={styles.row}>
                 <Text style={styles.label}>
                     Premature / Aterme:
+                </Text>
+                <View style={styles.pickerContainer}>
                     <Picker
                         style={styles.picker}
                         selectedValue={isPrematureAterme}
@@ -105,21 +78,22 @@ export default function AllaitementHead(props) {
                         <Picker.Item label="Prématuré" value="premature" />
                         <Picker.Item label="À terme" value="aterme" />
                     </Picker>
-                </Text>
+                </View>
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>
                     Poids en kg:
-                    <TextInput
-                        style={styles.input}
-                        placeholder=""
-                        onChangeText={(text) => {
-                            setWeight(text);
-                            setQuantite(calculateQuantite(text, isPrematureAterme));
-                            props.sendRecQuantityValue(calculateQuantite(text, isPrematureAterme));
-                        }}
-                    />
                 </Text>
+                <TextInput
+                    style={styles.input}
+                    keyboardType="numeric"
+                    placeholder=""
+                    onChangeText={(text) => {
+                        setWeight(text);
+                        setQuantite(calculateQuantite(text, isPrematureAterme));
+                        props.sendRecQuantityValue(calculateQuantite(text, isPrematureAterme));
+                    }}
+                />
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>Quantité en cc: {quantite}</Text>
@@ -139,6 +113,7 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 5,
         padding: 20,
+
     },
     row: {
         flexDirection: 'row',
@@ -149,13 +124,21 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 5,
-        padding: 0,
+        padding: 10,
         marginBottom: 10,
         marginLeft: 10,
+        flex: 1,
+
+
+
+
 
     },
     label: {
         marginBottom: 5,
+    },
+    pickerContainer: {
+        flex: 1,
     },
     picker: {
         borderWidth: 1,
@@ -164,6 +147,7 @@ const styles = StyleSheet.create({
         padding: 2,
         marginBottom: 10,
         marginLeft: 10,
+        flex: 1
     },
 
 });
