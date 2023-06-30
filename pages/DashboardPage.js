@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native'
 import React , {useState , } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native'
@@ -13,9 +13,10 @@ export default function Dashboard() {
   const pages = [
     { title: 'Fiche journalière de mise à jour du patient', screen: 'Update' , icon: require('../assets/update.png') }, 
     { title: 'Fiche d\'allaitement journalière', screen: 'Allaitement' , icon: require("../assets/Allaitement.png") },
-    { title: 'Fiche de surveillance journalière', screen: 'Surveillance' , icon: require('../assets/surveillance.png') },
+    { title: 'FSJ', screen: 'FSJ' , icon: require('../assets/surveillance.png') },
     { title: 'Fiche de surveillance D.A.C', screen: 'DAC' , icon: require('../assets/dac.png') },
     { title: 'Fiche des mesures', screen: 'Mesure' , icon: require('../assets/mesure.png') },
+    
     // Add more pages as needed
   ];
     
@@ -24,7 +25,8 @@ export default function Dashboard() {
   };
 
   return (
-    <View style={styles.container }>
+    <ScrollView  >
+      <View style={styles.container}>
       <Image source={require('../assets/Hopital.jpg')} style={styles.img}/>
     <Text>Bienvenue que voulez vous remplir ?</Text>
 
@@ -41,8 +43,10 @@ export default function Dashboard() {
          </TouchableOpacity>
         ))}
       </View>
+      </View>
       
-    </View>
+    </ScrollView>
+
   );
 };
 

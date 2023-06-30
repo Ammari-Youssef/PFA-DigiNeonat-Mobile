@@ -1,5 +1,6 @@
-import { View, Text, TextInput, Picker, StyleSheet } from 'react-native'
+import { View, Text, TextInput, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
+import { Picker } from '@react-native-picker/picker'
 // import MySQLService from '../services/MySQLServices';
 
 export default function AllaitementHead(props) {

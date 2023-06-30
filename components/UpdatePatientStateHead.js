@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Picker } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { Picker } from '@react-native-picker/picker'
 import { Button } from 'react-native-web';
 
 export default function UpdatePatientStatePage() {

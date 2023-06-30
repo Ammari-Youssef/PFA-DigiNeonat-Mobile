@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput, Picker, Animated, Button } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TextInput, Animated, Button } from 'react-native';
 import AllaitementHead from '../components/AllaitementHead'
-import MySQLService from '../services/MySQLServices';
+// import MySQLService from '../services/MySQLServices';
+import { Picker } from '@react-native-picker/picker'
+import { ScrollView } from 'react-native-gesture-handler';
 export default function AllaitementPage() {
 
   const [data, setData] = useState([
@@ -92,7 +94,7 @@ export default function AllaitementPage() {
 
   return (
 
-
+    <ScrollView>
     <View style={styles.container}>
       {/* Entete de la fiche  */}
 
@@ -119,6 +121,7 @@ export default function AllaitementPage() {
         accessibilityLabel="Learn more about this purple button"
       />
     </View>
+    </ScrollView>
   );
 };
 
@@ -139,7 +142,7 @@ const styles = StyleSheet.create({
 
   },
   header: {
-    fontWeight: "bold",
+    fontWeight: '500',
     flex: 1,
     textAlign: 'center',
     padding: 5,
@@ -148,13 +151,13 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     padding: 5,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   input: {
     backgroundColor: 'white',
     borderRadius: 5,
     paddingHorizontal: 10,
-    fontWeight: 500
+    fontWeight: '500'
   },
   picker: {
     borderWidth: 1,
@@ -162,7 +165,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     marginBottom: 10,
-    fontWeight: 500
+    fontWeight: '500'
 
   },
   qtyInputDefault: {
@@ -170,7 +173,7 @@ const styles = StyleSheet.create({
   },
   qtyInputRed: {
     backgroundColor: 'red',
-    fontSize: "bold"
+    fontSize: 16,
   },
   qtyInputGreen: {
     backgroundColor: 'green',
@@ -182,7 +185,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '500',
   },
 });
 

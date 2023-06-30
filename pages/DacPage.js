@@ -1,14 +1,13 @@
-import { View, Text, StyleSheet, Button } from 'react-native'
+import { View, Text, StyleSheet, Button,ScrollView } from 'react-native'
 import React, { useState, useRef } from 'react'
 import DacHead from '../components/DacHead'
-import { SafeAreaView, ScrollView } from 'react-native-web';
 import DacTable from '../components/DacTable';
 
 export default function DacPage() {
 
 
     return (
-
+        <ScrollView>
         <View style={styles.container}>
             <DacHead />
             <DacTable />
@@ -20,6 +19,7 @@ export default function DacPage() {
                 accessibilityLabel="Learn more about this purple button"
             />
         </View>
+        </ScrollView>
     );
 };
 
