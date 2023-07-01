@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, ScrollView } from 'react-native';
+import React, { useState ,useEffect} from 'react';
+import { View, Text, StyleSheet, TextInput, Button, ScrollView} from 'react-native';
 import { Table, Row } from 'react-native-table-component';
 import { Picker } from '@react-native-picker/picker';
 import AllaitementHead from '../components/AllaitementHead'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ToastAndroid } from 'react-native';
 
+import axios from 'axios';
 
 export default function AllaitementPage() {
   const [data, setData] = useState([
@@ -17,18 +20,55 @@ export default function AllaitementPage() {
     { id: '8', heure: '05:00', quantite: '', residus: '' },
   ]);
 
-  
-
-  const [qty, setQty] = useState();
-
-  const handleQtyChange = (text) => {
-    setQty(text);
+  const saveData = async () => {
+    try {
+      // Send a POST request with the data to your API endpoint
+      const response = await axios.post('https://localhost:4430/api/fiche_allaitement', data);
+      console.log('Data saved successfully:', response.data);
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
   };
+
+  //conserver données meme si on quitte la page
+  const saveFormData = async (data) => {
+    try {
+      await AsyncStorage.setItem('formData', JSON.stringify(data));
+      // ToastAndroid.show('Form data saved successfully', ToastAndroid.SHORT);
+    } catch (error) {
+      console.error('Error saving form data:', error);
+    }
+  };
+
+  const handleFormUpdate = (updatedData) => {
+    setData(updatedData);
+    saveFormData(updatedData);
+  };
+  const loadFormData = async () => {
+    try {
+      const savedData = await AsyncStorage.getItem('formData');
+      if (savedData) {
+        setData(JSON.parse(savedData));
+        console.log('Form data loaded successfully');
+      }
+    } catch (error) {
+      console.error('Error loading form data:', error);
+    }
+  };
+
+  useEffect(() => {
+    loadFormData();
+  }, []);
+  
+  
+//Quantité recomandé
+  const [qty, setQty] = useState();
 
   const getQuantityValue = (v) => {
     setQty(v)
   };
 
+  //Style du tableau
   const getContainerStyle = (item) => {
     if (item.quantite != '' && item.quantite != qty) {
       return styles.qtyInputRed;
@@ -53,22 +93,22 @@ export default function AllaitementPage() {
             placeholder="Quantité en cc"
             value={item.quantite}
             onChangeText={(text) => {
-              setData((prevData) =>
-                prevData.map((prevItem) =>
-                  prevItem.id === item.id ? { ...prevItem, quantite: text } : prevItem
-                )
+              const updatedData = data.map((prevItem) =>
+                prevItem.id === item.id ? { ...prevItem, quantite: text } : prevItem
               );
+              setData(updatedData);
+              handleFormUpdate(updatedData); // Save the updated data
             }}
           />,
           <Picker
-            style={[styles.picker ,]}
+            style={styles.picker}
             selectedValue={item.residus}
             onValueChange={(value) => {
-              setData((prevData) =>
-                prevData.map((prevItem) =>
-                  prevItem.id === item.id ? { ...prevItem, residus: value } : prevItem
-                )
+              const updatedData = data.map((prevItem) =>
+                prevItem.id === item.id ? { ...prevItem, residus: value } : prevItem
               );
+              setData(updatedData);
+              handleFormUpdate(updatedData); // Save the updated data
             }}
           >
             <Picker.Item label="Oui" value="yes" />
@@ -77,6 +117,14 @@ export default function AllaitementPage() {
         ]}
         textStyle={styles.column}
       />
+
+
+
+
+
+
+
+
     );
   };
 
@@ -102,9 +150,7 @@ export default function AllaitementPage() {
         {/* Save Button */}
         <Button
           title="Enregistrer"
-          onPress={() => {
-            // Save logic
-          }}
+          onPress={saveData}
           buttonStyle={styles.button}
           titleStyle={styles.buttonText}
         />

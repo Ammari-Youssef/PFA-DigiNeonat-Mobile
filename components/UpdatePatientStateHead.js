@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker'
 import { Button } from 'react-native-web';
 
 export default function UpdatePatientStatePage() {
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState(new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }));
     const [coverage, setCoverage] = useState('');
     const [gender, setGender] = useState('');
     const [provenance, setProvenance] = useState('');

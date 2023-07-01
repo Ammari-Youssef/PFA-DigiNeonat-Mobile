@@ -1,7 +1,9 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { Picker } from '@react-native-picker/picker'
+import axios from 'axios'
 // import MySQLService from '../services/MySQLServices';
+
 
 export default function AllaitementHead(props) {
 
@@ -9,8 +11,51 @@ export default function AllaitementHead(props) {
     const [weight, setWeight] = useState(0)
     const [isPrematureAterme, setPrematureAterme] = useState("aterme")
     const [quantite, setQuantite] = useState(0)
-    const [motherName, setMotherName] = useState("mom");
+    const [motherName, setMotherName] = useState("");
+    const[idPatient, setIdPatient] = useState('');
+    const [data ,setData] = useState({})
 
+
+    // useEffect(()=> fetchData,[])
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await axios.get('https://192.168.1.2:4430/api/matient');
+    //         const prenomMere = response.data.prenomMere;
+    //         console.log(prenomMere);
+    //         setMotherName(prenomMere)
+    //     } catch (error) {
+    //         console.error('Error retrieving data:', error);
+    //         setMotherName("erzror")
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     // Fetch the id_patient from the database or any other source
+    //     axios.get(`https://localhost:4430/api/matients`)
+    //     .then(res =>{
+            
+    //     })
+    //     // and set it in the state
+    //     const fetchedIdPatient = 'FETCHED_PATIENT_ID'; // Replace with the fetched patient ID
+    //     setIdPatient(fetchedIdPatient);
+    // }, []);
+
+    // useEffect(() => {
+    //     if (idPatient) {
+    //         axios.get(`http://localhost:4430/api/matient/${idPatient}`)
+    //             .then(response => {
+    //                 const data = response.data;
+    //                 setData(data); // Store the data in the state
+    //                 if (data.length > 0) {
+    //                     const firstRow = data[0];
+    //                     setMother(firstRow.motherName);
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error retrieving data:', error);
+    //             });
+    //     }
+    // }, [idPatient]);
 
     const handleDateChange = (text) => {
         // Validate and format the date input as needed

@@ -1,38 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons , FontAwesome} from '@expo/vector-icons';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import axios from 'axios';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+
 
 export default function LoginForm(props) {
   
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const navigation = useNavigation();
+
+  const authenticate = async () => {
+    try {
+      const response = await axios.post('https://localhost:4430/auth', {
+        email: email,
+        password: password
+      });
+
+      // Handle the response
+      console.log(response.data); // Access the response data
+      console.log(response.status); // Access the response status code
+
+      if (response.status === 200) {
+        props.handleLogin()
+      }
+
+    } catch (error) {
+      // Handle errors
+      console.error(error);
+      
+    }
+  };
 
     const handleLogin = () => {
       // Perform login logic here
       
 
-      // if (username.trim() !== '' && password.trim() !== '') {
+      // if (email.trim() !== '' && password.trim() !== '') {
       props.handleLogin();
       // }
+
+      // authenticate()
     };
 
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Connexion</Text>
 
-        {/* username */}
+        {/* email */}
         <View style={styles.inputContainer}>
           <MaterialCommunityIcons name="doctor" size={24} color="black" />
           <TextInput
             style={styles.input}
             placeholder="Nom de l'utilisateur"
-            onChangeText={(text) => setUsername(text)}
-            value={username}
+            onChangeText={(text) => setEmail(text)}
+            value={email}
           />
         </View>
 
