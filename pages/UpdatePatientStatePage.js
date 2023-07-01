@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import UpdatePatientStateHead from '../components/UpdatePatientStateHead';
 import { Table, Row, Rows } from 'react-native-table-component';
 import axios from 'axios';
-import { DataTable } from 'react-native-paper';
 
 export default function UpdatePatientStatePage() {
 
@@ -23,7 +22,7 @@ export default function UpdatePatientStatePage() {
                 console.error('Error retrieving data:', error);
             });
     }, []);
-    
+
     const [data, setData] = useState([
         { header: 'N-Né', input: 'Genéreé par dossier' },
         { header: 'Mère', input: 'Genéreé par dossier' },
