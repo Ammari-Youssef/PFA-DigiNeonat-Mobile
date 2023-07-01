@@ -53,6 +53,7 @@ export default function AllaitementHead(props) {
                 </Text>
                 <TextInput
                     style={styles.input}
+                    keyboardType='numeric'
                     placeholder="jj/mm/aaaa"
                     onChangeText={(text) => handleDateChange(text)}
                     value={date}
@@ -96,7 +97,7 @@ export default function AllaitementHead(props) {
                 />
             </View>
             <View style={styles.row}>
-                <Text style={styles.label}>Quantité en cc: {quantite}</Text>
+                <Text style={styles.label}>Quantité en cc par 3h: {quantite}</Text>
             </View>
         </View>
     )
