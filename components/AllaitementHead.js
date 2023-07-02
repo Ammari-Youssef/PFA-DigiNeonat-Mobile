@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Picker } from '@react-native-picker/picker'
 import axios from 'axios'
 // import MySQLService from '../services/MySQLServices';
-
+import { ToastAndroid } from 'react-native';
 
 export default function AllaitementHead(props) {
 
@@ -19,7 +19,7 @@ export default function AllaitementHead(props) {
     // useEffect(()=> fetchData,[])
     // const fetchData = async () => {
     //     try {
-    //         const response = await axios.get('https://192.168.1.2:4430/api/matient');
+    //         const response = await axios.get('https://localhost:4430/api/matient');
     //         const prenomMere = response.data.prenomMere;
     //         console.log(prenomMere);
     //         setMotherName(prenomMere)

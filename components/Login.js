@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons , FontAwesome} from '@expo/vector-icons';
 import axios from 'axios';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
-
+// import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { ToastAndroid } from 'react-native';
 
 export default function LoginForm(props) {
   
@@ -39,11 +39,13 @@ export default function LoginForm(props) {
       // Perform login logic here
       
 
-      // if (email.trim() !== '' && password.trim() !== '') {
-      props.handleLogin();
-      // }
+      if (email.trim() !== '' && password.trim() !== '') {
+      // props.handleLogin();
+      authenticate()
+      }else{
+         ToastAndroid.show("Erreur d'authenification", ToastAndroid.SHORT);
+      }
 
-      // authenticate()
     };
 
     return (
