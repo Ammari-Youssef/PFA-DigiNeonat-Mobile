@@ -1,13 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Picker } from '@react-native-picker/picker'
-import { Button } from 'react-native-web';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import axios from 'axios';
 
-export default function UpdatePatientStatePage() {
+export default function UpdatePatientStatePage(props) {
     const [date, setDate] = useState(new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }));
     const [coverage, setCoverage] = useState('');
     const [gender, setGender] = useState('');
     const [provenance, setProvenance] = useState('');
+
+    const [idPatient, setIdPatient] = useState('');
+    const [data, setData] = useState();
+    
+    useEffect(() => {
+      
+
+        props.sendDateValue(date)
+        props.sendIPValue(idPatient)
+        props.sendCoverageValue(coverage)
+        props.sendGenderValue(gender)
+        props.sendProvenanceValue(provenance)
+
+    }, [date, idPatient, coverage, gender, provenance]);
+
+
+    useEffect(() => {
+        if (idPatient.trim() === '') {
+            setGender('valeur n\'existe pas');
+            setProvenance('valeur n\'existe pas');
+            setCoverage('valeur n\'existe pas');
+            return;
+        }
+        //GEt Patient mothername
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`https://localhost:4430/api/matients/${idPatient}`);
+                setData(response.data);
+                console.log(data)
+                
+                setCoverage(response.data.couvertureSanitaire);
+                setGender(response.data.sexeAvantExamen);
+                setProvenance(response.data.villeProvenance);
+
+
+            } catch (error) {
+                console.error('Error retrieving data:', error);
+                Toast.show({
+                    type: 'info',
+                    text1: 'erreur est survenu',
+                    position: 'bottom',
+                    visibilityTime: 3000,
+                });
+            }
+        };
+
+        fetchData();
+    }, [idPatient]);
+
+
 
     const handleDateChange = (text) => {
 
@@ -53,7 +104,13 @@ export default function UpdatePatientStatePage() {
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>IP:</Text>
-                <Text style={styles.text}>(Généré par le dossier)</Text>
+                <TextInput
+                    style={styles.input}
+                    keyboardType='numeric'
+                    placeholder="Identifiant du patient"
+                    onChangeText={(text) => setIdPatient(text)}
+
+                />
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>Couverture médicale:</Text>
@@ -69,6 +126,8 @@ export default function UpdatePatientStatePage() {
                     <Picker.Item label="AMO" value="amo" />
                     <Picker.Item label="FAR" value="far" />
                     <Picker.Item label="Assurance privé" value="private_assurance" />
+                    <Picker.Item label="Mutualiste" value="mutualiste" />
+                    <Picker.Item label="Payant" value="payant" />
                 </Picker>
             </View>
             <View style={styles.row}>

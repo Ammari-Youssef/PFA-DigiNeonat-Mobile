@@ -1,17 +1,21 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { MaterialCommunityIcons , FontAwesome} from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
-// import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { ToastAndroid } from 'react-native';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+
 
 export default function LoginForm(props) {
-  
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
 
-    const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+
+  const navigation = useNavigation();
 
   const authenticate = async () => {
     try {
@@ -31,58 +35,82 @@ export default function LoginForm(props) {
     } catch (error) {
       // Handle errors
       console.error(error);
-      
+
     }
   };
 
-    const handleLogin = () => {
-      // Perform login logic here
-      
+  const handleLogin = () => {
+    // Perform login logic here
 
-      if (email.trim() !== '' && password.trim() !== '') {
+
+    if (email.trim() === '' && password.trim() === '') {
+      Toast.show({
+        type: 'info',
+        text1: 'Email et mot de passe sont obligatoires',
+        position: 'bottom',
+        visibilityTime: 3000,
+      });
+    } else if (email === '') {
+      Toast.show({
+        type: 'info',
+        text1: 'Email est obligatoire',
+        position: 'bottom',
+        visibilityTime: 3000,
+      });
+    } else if (password === '') {
+      Toast.show({
+        type: 'info',
+        text1: 'Mot de passe est obligatoire',
+        position: 'bottom',
+        visibilityTime: 3000,
+      });
+    }
+    else {
+
       // props.handleLogin();
       authenticate()
-      }else{
-         ToastAndroid.show("Erreur d'authenification", ToastAndroid.SHORT);
-      }
+    }
 
-    };
 
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Connexion</Text>
+  
 
-        {/* email */}
-        <View style={styles.inputContainer}>
-          <MaterialCommunityIcons name="doctor" size={24} color="black" />
-          <TextInput
-            style={styles.input}
-            placeholder="Nom de l'utilisateur"
-            onChangeText={(text) => setEmail(text)}
-            value={email}
-          />
-        </View>
+};
 
-        {/* password */}
-        <View style={styles.inputContainer}>
-          <FontAwesome name="lock" size={24} color="black" style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Mot de passe"
-            onChangeText={(text) => setPassword(text)}
-            value={password}
-            secureTextEntry={true}
-          />
-        </View>
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Connexion</Text>
 
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Se connecter</Text>
-        </TouchableOpacity>
-
-        
+      {/* email */}
+      <View style={styles.inputContainer}>
+        <MaterialCommunityIcons name="doctor" size={24} color="black" />
+        <TextInput
+          style={styles.input}
+          placeholder="Email de l'utilisateur"
+          onChangeText={(text) => setEmail(text)}
+          value={email}
+        />
       </View>
-    );
-  };
+
+      {/* password */}
+      <View style={styles.inputContainer}>
+        <FontAwesome name="lock" size={24} color="black" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Mot de passe"
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          secureTextEntry={true}
+        />
+      </View>
+
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Se connecter</Text>
+      </TouchableOpacity>
+
+      <Toast ref={(ref) => Toast.setRef(ref)} />
+    </View>
+  );
+}
 
 
 
@@ -105,7 +133,7 @@ const styles = StyleSheet.create({
     margin: 8,
     width: '100%',
     borderRadius: 8,
-    
+
   },
   button: {
     backgroundColor: 'blue',
@@ -127,10 +155,11 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 10,
-    
+
   },
   input: {
     flex: 1,
     height: 40,
   },
+
 });

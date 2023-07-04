@@ -1,12 +1,16 @@
-import React, { useState ,useEffect} from 'react';
-import { View, Text, StyleSheet, TextInput, Button, ScrollView} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TextInput, Button, ScrollView } from 'react-native';
 import { Table, Row } from 'react-native-table-component';
 import { Picker } from '@react-native-picker/picker';
 import AllaitementHead from '../components/AllaitementHead'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ToastAndroid } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
-import axios from 'axios';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+
+
+
+import axios, { Axios } from 'axios';
 
 export default function AllaitementPage() {
   const [data, setData] = useState([
@@ -19,34 +23,37 @@ export default function AllaitementPage() {
     { id: '7', heure: '02:00', quantite: '', residus: '' },
     { id: '8', heure: '05:00', quantite: '', residus: '' },
   ]);
+  
+  const [weight, setWeight] = useState();
+  const [idPatient, setIdPatient] = useState();
+  const [date, setDate] = useState();
+  const [prematurity, setPrematurity] = useState();
+  const [mother, setMother] = useState();
+  //Quantité recomandé
+  const [qty, setQty] = useState();
+  const [loading, setLoading] = useState(false);
+  
 
-  const saveData = async () => {
-    try {
-      // Send a POST request with the data to your API endpoint
-      const response = await axios.post('https://localhost:4430/api/fiche_allaitement', data);
-      console.log('Data saved successfully:', response.data);
-    } catch (error) {
-      console.error('Error saving data:', error);
-    }
-  };
+  
+
+
 
   //conserver données meme si on quitte la page
   const saveFormData = async (data) => {
     try {
-      await AsyncStorage.setItem('formData', JSON.stringify(data));
-      // ToastAndroid.show('Form data saved successfully', ToastAndroid.SHORT);
+      await AsyncStorage.setItem('atted', JSON.stringify(data));
     } catch (error) {
       console.error('Error saving form data:', error);
     }
   };
-
+  //Conserver les données meme quitter la page
   const handleFormUpdate = (updatedData) => {
     setData(updatedData);
     saveFormData(updatedData);
   };
   const loadFormData = async () => {
     try {
-      const savedData = await AsyncStorage.getItem('formData');
+      const savedData = await AsyncStorage.getItem('atted');
       if (savedData) {
         setData(JSON.parse(savedData));
         console.log('Form data loaded successfully');
@@ -59,14 +66,8 @@ export default function AllaitementPage() {
   useEffect(() => {
     loadFormData();
   }, []);
-  
-  
-//Quantité recomandé
-  const [qty, setQty] = useState();
 
-  const getQuantityValue = (v) => {
-    setQty(v)
-  };
+
 
   //Style du tableau
   const getContainerStyle = (item) => {
@@ -78,6 +79,8 @@ export default function AllaitementPage() {
       return styles.qtyInputDefault;
   };
 
+
+  //fonction qui montre les lignes 
   const renderItem = ({ item }) => {
     const containerStyle = getContainerStyle(item);
 
@@ -127,7 +130,7 @@ export default function AllaitementPage() {
 
     );
   };
-
+//Fonction affiche l'entete du tableau
   const renderHeader = () => (
     <Row
       data={['Heure', 'Quantité en cc', 'Résidus']}
@@ -136,21 +139,100 @@ export default function AllaitementPage() {
     />
   );
 
+
+  
+  const handleFormSubmit = () => {
+    const payloadFicheAllaitmentData = {
+      dateFicheAllaitement: date,
+      ip: parseInt(idPatient),
+      prenomMere: mother,
+      prematurity: prematurity,
+      poids: parseFloat(weight),
+      recommandedQuantity: qty
+    };
+
+    const postFicheAllaitements = axios.post('https://localhost:4430/api/fiche_allaitements', payloadFicheAllaitmentData);
+
+    const postFicheAllaitementTables = data.map(row => {
+      const payload = {
+        ip: parseInt(idPatient),
+        heureFicheAllaitement: row.heure,
+        givenQuantity: parseFloat(row.quantite),
+        residu: row.residus
+      };
+      return axios.post('https://localhost:4430/api/fiche_allaitement_tables', payload);
+    });
+
+    Promise.all([postFicheAllaitements, ...postFicheAllaitementTables])
+      .then(responses => {
+        console.log('Form data and table data submitted successfully');
+        // Handle the responses here
+        const [ficheAllaitementsResponse, ...ficheAllaitementTablesResponses] = responses;
+        // Show success message or perform any other actions
+        Toast.show({
+          type: 'info',
+          text1: 'Les donneeés de la fiche sont bien insérées',
+          position: 'top',
+          visibilityTime: 3000,
+        });
+      })
+      .catch(error => {
+        console.error('Error submitting form data and table data:', error);
+        // Show an error message to the user
+        Toast.show({
+          type: 'info',
+          text1: 'erreur est survenu',
+          position: 'top',
+          visibilityTime: 3000,
+        });
+        // Show error message or perform any other actions
+      });
+  };
+
+
+  const save = () => {
+
+    setLoading(true)
+
+    setTimeout(() => {
+      setLoading(false);
+      //     // Alert.alert('Success', 'Insertion de la fiche réussie', [{ text: "ok", onPress: () => console.log('OK Pressed') }]);
+
+
+      Toast.show({
+        type: 'info',
+        text1: 'Insertion reussie',
+        position: 'top',
+        visibilityTime: 3000,
+      });
+    }, 2000);
+  }
+
   return (
     <ScrollView style={styles.container}>
 
-      <AllaitementHead sendRecQuantityValue={(value) => getQuantityValue(value)} />
+      <AllaitementHead
+        sendRecQuantityValue={(value) => setQty(value)}
+        sendWeightValue={(value) => setWeight(value)}
+        sendIPValue={(value) => setIdPatient(value)}
+        sendDateValue={(value) => setDate(value)}
+        sendPrematurityValue={(value) => setPrematurity(value)}
+        sendMotherValue={(value) => setMother(value)}
+      />
+      {/* {date} {mother} {idPatient} {qty} {prematurity} , {weight} */}
+
       <View style={styles.container}>
         {/* Table */}
         <Table borderStyle={{ borderWidth: 1, borderColor: '#000' }}>
           {renderHeader()}
           {data.map((item) => renderItem({ item }))}
         </Table>
-
+        <Spinner visible={loading} textContent={'loading...'} textStyle={styles.spinnerText} />
+        <Toast ref={(ref) => Toast.setRef(ref)} />
         {/* Save Button */}
         <Button
           title="Enregistrer"
-          onPress={saveData}
+          onPress={handleFormSubmit}
           buttonStyle={styles.button}
           titleStyle={styles.buttonText}
         />
@@ -185,7 +267,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     fontWeight: '500',
-    flex:1
+    flex: 1
   },
   picker: {
     borderWidth: 1,

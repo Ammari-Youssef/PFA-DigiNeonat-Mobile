@@ -1,14 +1,18 @@
 import { Text, TextInput, View, StyleSheet, Image } from 'react-native'
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import axios from 'axios';
 export default function DacHead() {
 
     const [month, setMonth] = useState('');
     const [year, setYear] = useState(new Date().getFullYear());
     const [date, setDate] = useState('');
+    const [idPatient, setIdPatient] = useState()
+
+    
 
     const handleDateChange = (text) => {
-        
+
 
         // Remove any non-digit characters from the input
         const cleanedText = text.replace(/\D/g, '');
@@ -40,11 +44,11 @@ export default function DacHead() {
         }
     };
     const handleYearChange = (text) => {
-    
+
         setYear(text)
     };
-    
-   
+
+
     return (
         <View style={styles.container}>
             {/* First Form */}
@@ -86,7 +90,9 @@ export default function DacHead() {
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.label}>IP:</Text>
-                    <TextInput style={styles.input} placeholder="" />
+                    <TextInput style={styles.input} placeholder=""  
+                        onChangeText={(text) => setIdPatient(text)}
+                    />
                 </View>
             </View>
 

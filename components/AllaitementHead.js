@@ -1,9 +1,11 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { View, Text, TextInput, StyleSheet,Button } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { Picker } from '@react-native-picker/picker'
 import axios from 'axios'
 // import MySQLService from '../services/MySQLServices';
-import { ToastAndroid } from 'react-native';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+
+
 
 export default function AllaitementHead(props) {
 
@@ -12,51 +14,43 @@ export default function AllaitementHead(props) {
     const [isPrematureAterme, setPrematureAterme] = useState("aterme")
     const [quantite, setQuantite] = useState(0)
     const [motherName, setMotherName] = useState("");
-    const[idPatient, setIdPatient] = useState('');
-    const [data ,setData] = useState({})
+    const[idPatient, setIdPatient] = useState();
+    const [data ,setData] = useState()
+   
+    useEffect(() => {
+        
+       props.sendRecQuantityValue(quantite)
+       props.sendWeightValue(weight)
+       props.sendPrematurityValue(isPrematureAterme)
+       props.sendDateValue(date)
+       props.sendIPValue(idPatient)
+       props.sendMotherValue(motherName)
 
+    }, [ date, idPatient, quantite, weight, isPrematureAterme]);
 
-    // useEffect(()=> fetchData,[])
-    // const fetchData = async () => {
-    //     try {
-    //         const response = await axios.get('https://localhost:4430/api/matient');
-    //         const prenomMere = response.data.prenomMere;
-    //         console.log(prenomMere);
-    //         setMotherName(prenomMere)
-    //     } catch (error) {
-    //         console.error('Error retrieving data:', error);
-    //         setMotherName("erzror")
-    //     }
-    // };
+    useEffect(() => {
+        // if ( idPatient.trim("")) {
+        //     setMotherName('nom maman n\'existe pas taper un autre ip');
+        //     return;
+        // }
+//GEt Patient mothername
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`https://localhost:4430/api/matients/${idPatient}`);
+                setData(response.data);
+                console.log(data)
+                const prenomMere = response.data.prenomMere;
+                setMotherName(prenomMere);
+            } catch (error) {
+                console.error('Error retrieving data:', error);
+                setMotherName('error');
+            }
+        };
 
-    // useEffect(() => {
-    //     // Fetch the id_patient from the database or any other source
-    //     axios.get(`https://localhost:4430/api/matients`)
-    //     .then(res =>{
-            
-    //     })
-    //     // and set it in the state
-    //     const fetchedIdPatient = 'FETCHED_PATIENT_ID'; // Replace with the fetched patient ID
-    //     setIdPatient(fetchedIdPatient);
-    // }, []);
+        fetchData();
+    }, [idPatient]);
 
-    // useEffect(() => {
-    //     if (idPatient) {
-    //         axios.get(`http://localhost:4430/api/matient/${idPatient}`)
-    //             .then(response => {
-    //                 const data = response.data;
-    //                 setData(data); // Store the data in the state
-    //                 if (data.length > 0) {
-    //                     const firstRow = data[0];
-    //                     setMother(firstRow.motherName);
-    //                 }
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error retrieving data:', error);
-    //             });
-    //     }
-    // }, [idPatient]);
-
+   
     const handleDateChange = (text) => {
         // Validate and format the date input as needed
         // For simplicity, let's assume the input format is always "jj/mm/aaaa"
@@ -74,6 +68,56 @@ export default function AllaitementHead(props) {
 
         setDate(formattedDate);
     };
+
+    const handleFormSubmit = () => {
+        // Create a payload object with the data to be saved
+        // const format_date = moment(date, 'DD/MM/YYYY').format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+
+        // const payload = {
+        //     dateFicheAllaitement: date,//format_date,
+        //     ip: parseInt(idPatient),
+        //     prenomMere: motherName,
+        //     prematurity: isPrematureAterme,
+        //     poids: parseFloat( weight),
+        //     recommandedQuantity: quantite
+        // };
+
+        // console.log("Payload:", payload);
+        // console.log("idPatient:", idPatient);
+        // console.log("motherName:", motherName);
+        // console.log("isPrematureAterme:", isPrematureAterme);
+        // console.log("weight:", weight);
+        // console.log("quantite:", quantite);
+
+        // // Make a POST request to save the data
+        // axios
+        //     .post('https://localhost:4430/api/fiche_allaitements', payload)
+        //     .then(response => {
+        //         // Data saved successfully
+        //         console.log('Data saved:', response.data);
+        //         // Show a success message to the user
+        //         Toast.show({
+        //             type: 'info',
+        //             text1: 'insertion du données de fiche est reussi',
+        //             position: 'top',
+        //             visibilityTime: 3000,
+        //         });
+        //     })
+        //     .catch(error => {
+        //         // Error occurred while saving data
+        //         // console.error('Error saving data:', error);
+        //         // console.log('Response Data:', error.response.data);
+        //         // console.log('Response Status:', error.response.status);
+        //         // Show an error message to the user
+        //         Toast.show({
+        //             type: 'info',
+        //             text1: 'erreur est survenu',
+        //             position: 'top',
+        //             visibilityTime: 3000,
+        //         });
+        //     });
+    };
+    
 
 
 
@@ -105,7 +149,20 @@ export default function AllaitementHead(props) {
                 />
             </View>
             <View style={styles.row}>
-                <Text style={styles.label}>Né du madame: {motherName}</Text>
+                <Text style={styles.label}>
+                    IP:
+                </Text>
+                <TextInput
+                    style={styles.input}
+                    keyboardType='numeric'
+                    placeholder="Identifiant du patient"
+                    onChangeText={(text) => setIdPatient(text)}
+
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>Né du madame: {motherName} </Text>
+                
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>
@@ -118,7 +175,7 @@ export default function AllaitementHead(props) {
                         onValueChange={(itemValue) => {
                             setPrematureAterme(itemValue);
                             setQuantite(calculateQuantite(weight, itemValue));
-                            props.sendRecQuantityValue(calculateQuantite(weight, itemValue));
+                            // props.sendRecQuantityValue(calculateQuantite(weight, itemValue));
                         }}
                     >
                         <Picker.Item label="Prématuré" value="premature" />
@@ -137,13 +194,19 @@ export default function AllaitementHead(props) {
                     onChangeText={(text) => {
                         setWeight(text);
                         setQuantite(calculateQuantite(text, isPrematureAterme));
-                        props.sendRecQuantityValue(calculateQuantite(text, isPrematureAterme));
+                        // props.sendRecQuantityValue(calculateQuantite(text, isPrematureAterme));
                     }}
                 />
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>Quantité en cc par 3h: {quantite}</Text>
             </View>
+            {/* <Button
+                title="Enregistrer"
+                onPress={handleFormSubmit}
+                buttonStyle={styles.button}
+                titleStyle={styles.buttonText}
+            /> */}
         </View>
     )
 }
