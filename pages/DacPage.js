@@ -28,12 +28,12 @@ export default function DacPage() {
     const [n_admission, setNAdmission] = useState()
 
     // variables du tableau
-    const [tableData, setTableData] = useState([]);
+    const [tableData, setTableData] = useState();
 
     const handleTableDataChange = (data) => {
         setTableData(data);
-        console.log(data)
-        console.log('row 0 ', tableData.map((r)=>r[0]))
+        // console.log(data)
+        console.log('ma data ', tableData)
     };
 
 
@@ -58,7 +58,7 @@ export default function DacPage() {
     const saveData2 = () => {
         // Format the tableData to match the API structure
         const formattedData = tableData.map((rowData) => ({
-            heureFicheDAC: rowData[0],
+            heureFicheDAC: rowData[0]||'8:00',
             glymie: parseFloat(rowData[1]),
             glycosurie:parseFloat( rowData[2]),
             acetonurie:parseFloat( rowData[3]),
@@ -66,6 +66,10 @@ export default function DacPage() {
             nFiche: parseInt(n_fiche),
         }));
 
+        // // console.log("payload",formattedData)
+        // formattedData.forEach((data) => {
+        //     console.log('heureFicheDAC:', data.heureFicheDAC);
+        // });
         // Make the POST request to the endpoint
         axios
             .post('https://localhost:4430/api/fiche_surveillance_d_a_c_tables', formattedData)
@@ -122,6 +126,8 @@ export default function DacPage() {
             diagnostic: diagnostic,
             nFiche: parseInt(n_fiche)
         };
+        console.log('heureFicheDAC:', data.heureFicheDAC); // Add this line
+
 
         axios.post('https://localhost:4430/api/fiche_surveillance_d_a_cs', data)
             .then(response => {

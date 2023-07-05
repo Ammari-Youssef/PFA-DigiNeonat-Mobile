@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet,Button } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { Picker } from '@react-native-picker/picker'
 import axios from 'axios'
@@ -14,26 +14,26 @@ export default function AllaitementHead(props) {
     const [isPrematureAterme, setPrematureAterme] = useState("aterme")
     const [quantite, setQuantite] = useState(0)
     const [motherName, setMotherName] = useState("");
-    const[idPatient, setIdPatient] = useState();
-    const [data ,setData] = useState()
-   
-    useEffect(() => {
-        
-       props.sendRecQuantityValue(quantite)
-       props.sendWeightValue(weight)
-       props.sendPrematurityValue(isPrematureAterme)
-       props.sendDateValue(date)
-       props.sendIPValue(idPatient)
-       props.sendMotherValue(motherName)
+    const [idPatient, setIdPatient] = useState();
+    const [data, setData] = useState()
 
-    }, [ date, idPatient, quantite, weight, isPrematureAterme]);
+    useEffect(() => {
+
+        props.sendRecQuantityValue(quantite)
+        props.sendWeightValue(weight)
+        props.sendPrematurityValue(isPrematureAterme)
+        props.sendDateValue(date)
+        props.sendIPValue(idPatient)
+        props.sendMotherValue(motherName)
+
+    }, [date, idPatient, quantite, weight, isPrematureAterme]);
 
     useEffect(() => {
         // if ( idPatient.trim("")) {
         //     setMotherName('nom maman n\'existe pas taper un autre ip');
         //     return;
         // }
-//GEt Patient mothername
+        //GEt Patient mothername
         const fetchData = async () => {
             try {
                 const response = await axios.get(`https://localhost:4430/api/matients/${idPatient}`);
@@ -43,14 +43,14 @@ export default function AllaitementHead(props) {
                 setMotherName(prenomMere);
             } catch (error) {
                 console.error('Error retrieving data:', error);
-                setMotherName('error');
+                setMotherName('Insèrer un ip valide ou changer nom de la maman');
             }
         };
 
         fetchData();
     }, [idPatient]);
 
-   
+
     const handleDateChange = (text) => {
         // Validate and format the date input as needed
         // For simplicity, let's assume the input format is always "jj/mm/aaaa"
@@ -117,7 +117,7 @@ export default function AllaitementHead(props) {
         //         });
         //     });
     };
-    
+
 
 
 
@@ -161,8 +161,15 @@ export default function AllaitementHead(props) {
                 />
             </View>
             <View style={styles.row}>
-                <Text style={styles.label}>Né du madame: {motherName} </Text>
-                
+                <Text style={styles.label}>Né du madame:  </Text>
+                {/* {motherName} */}
+                <TextInput
+                    style={styles.input}
+                    placeholder="Insérer nom maman"
+                    onChangeText={(text) => setMotherName(text)}
+                    value={motherName}
+                />
+
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>

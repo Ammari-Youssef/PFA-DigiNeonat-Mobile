@@ -12,7 +12,7 @@ function handleChange(text, key, index){
 
 export default function FSJTable() {
     const labels = ['T','FC','FR','SaO2','TA','Dextro','Poids','Peau','Diurése','Vomissement','Selles',
-        'Convulsions','Apnées','PC','Perimétre ombilical','Quantité de clucose en g/24h','CC de lait /24h','ATB en g/24h'];
+        'Convulsions','Apnées','PC','Perimétre ombilical','Quantité de glucose en g/24h','CC de lait /24h','ATB en g/24h'];
 
     const tableHeaders = ['', '8h', '11h', '15h', '19h','22h','00h','3h','5h','8h'];
     const releventVals = tableHeaders.slice(1);
