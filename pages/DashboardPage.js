@@ -13,8 +13,8 @@ export default function Dashboard() {
   const pages = [
     { title: 'Fiche d\'allaitement journalière', screen: 'Allaitement' , icon: require("../assets/Allaitement.png") },
     { title: 'Fiche journalière de mise à jour du patient', screen: 'Update' , icon: require('../assets/update.png') }, 
-    { title: 'Fiche journalière de surveillance', screen: 'FSJ' , icon: require('../assets/surveillance.png') },
     { title: 'Fiche de surveillance D.A.C', screen: 'DAC' , icon: require('../assets/dac.png') },
+    { title: 'Fiche journalière de surveillance', screen: 'FSJ' , icon: require('../assets/surveillance.png') },
     { title: 'Fiche des mesures', screen: 'Mesure' , icon: require('../assets/mesure.png') },
     
     // Add more pages as needed
@@ -44,6 +44,8 @@ export default function Dashboard() {
         ))}
       </View>
       </View>
+
+
       
     </ScrollView>
 

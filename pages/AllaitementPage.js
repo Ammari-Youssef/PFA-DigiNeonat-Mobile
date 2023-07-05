@@ -142,6 +142,17 @@ export default function AllaitementPage() {
 
   
   const handleFormSubmit = () => {
+    // if (weight != null || idPatient != null || date != null || prematurity != null || mother != null) {
+    //   Toast.show({
+    //     type: 'info',
+    //     text1: 'Un ou plusieurs champs sont vides .Réessayez ',
+    //     position: 'bottom',
+    //     visibilityTime: 3000,
+    //   });
+    //   console.log(weight , prematurity , idPatient , qty ,mother ,mother  )
+    //   return
+    // }
+    setLoading(true)
     const payloadFicheAllaitmentData = {
       dateFicheAllaitement: date,
       ip: parseInt(idPatient),
@@ -170,6 +181,7 @@ export default function AllaitementPage() {
         // Handle the responses here
         const [ficheAllaitementsResponse, ...ficheAllaitementTablesResponses] = responses;
         // Show success message or perform any other actions
+        setLoading(false);
         Toast.show({
           type: 'info',
           text1: 'Les donneeés de la fiche sont bien insérées',
@@ -179,10 +191,11 @@ export default function AllaitementPage() {
       })
       .catch(error => {
         console.error('Error submitting form data and table data:', error);
+        setLoading(false)
         // Show an error message to the user
         Toast.show({
           type: 'info',
-          text1: 'erreur est survenu',
+          text1: 'Soyez sûre que tout les champs sont rempli',
           position: 'top',
           visibilityTime: 3000,
         });
@@ -277,6 +290,7 @@ const styles = StyleSheet.create({
     padding: 5,
     marginBottom: 10,
     fontWeight: '500',
+    flex:1
   },
   qtyInputDefault: {
     backgroundColor: 'white',
@@ -296,5 +310,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  spinnerText: {
+    color: '#ffffff', // Set the color of the spinner text
+    fontSize: 16, // Set the font size of the spinner text
+    fontWeight: 'bold', // Set the font weight of the spinner text
   },
 });

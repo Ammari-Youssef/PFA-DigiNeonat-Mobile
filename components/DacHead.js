@@ -51,9 +51,9 @@ export default function DacHead(props) {
                 setAge(data.age);
                 setFullName(data.nom);
             } catch (error) {
-                console.error('Error retrieving data:', error);
-                console.error('Error response data:', error.response.data);
-                console.error('Error status data:', error.response.status);
+                // console.error('Error retrieving data:', error);
+                // console.error('Error response data:', error.response.data);
+                // console.error('Error status data:', error.response.status);
                 Toast.show({
                     type: 'info',
                     text1: 'Veuillez entrer les données',

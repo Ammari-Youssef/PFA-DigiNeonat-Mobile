@@ -25,28 +25,28 @@ export default function FSJPage() {
             Toast.show({
                 type: 'info',
                 text1: 'Insertion reussie',
-                position: 'top',
+                position: 'bottom',
                 visibilityTime: 3000,
             });
         }, 2000);
     }
 
-    
+
     return (
         <ScrollView>
-        <View style={styles.container}>
-            <FSJHead />
-            <FSJTable />
+            <View style={styles.container}>
+                <FSJHead />
+                <FSJTable />
                 <Spinner visible={loading} textContent={'loading...'} textStyle={styles.spinnerText} />
                 <Toast ref={(ref) => Toast.setRef(ref)} />
-            <Button
+                <Button
                     onPress={save}
                     title="Enregistrer"
                     buttonStyle={styles.button}
                     titleStyle={styles.buttonText}
                     accessibilityLabel="Learn more about this purple button"
                 />
-        </View>
+            </View>
         </ScrollView>
     );
 };

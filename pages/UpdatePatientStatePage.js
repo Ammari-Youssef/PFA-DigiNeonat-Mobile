@@ -116,6 +116,30 @@ export default function UpdatePatientStatePage() {
 
 
     const storeData = () => {
+        if (
+            idPatient !== null ||
+            coverage !== null ||
+            gender !== null ||
+            provenance !== null ||
+            date !== null ||
+            mother !== null ||
+            NNe !== null ||
+            Hospitalise !== null ||
+            DAEDC !== null ||
+            rx !== null ||
+            Traitement !== null ||
+            Evolution !== null ||
+            DurantLaGarde !== null
+        ) {
+            Toast.show({
+                type: 'info',
+                text1: 'Un ou plusieurs champs sont vides .Réessayez ',
+                position: 'bottom',
+                visibilityTime: 3000,
+            });
+            return;
+}
+
         setLoading(true);
 
         const payloadUpdate = {
