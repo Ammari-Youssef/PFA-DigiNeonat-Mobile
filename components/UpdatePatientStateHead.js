@@ -10,7 +10,7 @@ export default function UpdatePatientStatePage(props) {
     const [gender, setGender] = useState('');
     const [provenance, setProvenance] = useState('');
 
-    const [idPatient, setIdPatient] = useState('');
+    const [idPatient, setIdPatient] = useState();
     const [data, setData] = useState();
     
     useEffect(() => {
@@ -26,12 +26,12 @@ export default function UpdatePatientStatePage(props) {
 
 
     useEffect(() => {
-        if (idPatient.trim() === '') {
-            setGender('valeur n\'existe pas');
-            setProvenance('valeur n\'existe pas');
-            setCoverage('valeur n\'existe pas');
-            return;
-        }
+        // if (idPatient ==null) {
+        //     setGender('valeur n\'existe pas');
+        //     setProvenance('valeur n\'existe pas');
+        //     setCoverage('valeur n\'existe pas');
+        //     return;
+        // }
         //GEt Patient mothername
         const fetchData = async () => {
             try {
@@ -42,6 +42,10 @@ export default function UpdatePatientStatePage(props) {
                 setCoverage(response.data.couvertureSanitaire);
                 setGender(response.data.sexeAvantExamen);
                 setProvenance(response.data.villeProvenance);
+
+                console.log(gender)
+                console.log(provenance)
+                console.log(coverage)
 
 
             } catch (error) {

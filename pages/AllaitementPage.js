@@ -104,7 +104,7 @@ export default function AllaitementPage() {
             }}
           />,
           <Picker
-            style={styles.picker}
+            style={[styles.picker,containerStyle]}
             selectedValue={item.residus}
             onValueChange={(value) => {
               const updatedData = data.map((prevItem) =>

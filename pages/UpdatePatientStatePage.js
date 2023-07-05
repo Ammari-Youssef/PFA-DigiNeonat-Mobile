@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Button, ScrollView,Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, ScrollView, Alert } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import UpdatePatientStateHead from '../components/UpdatePatientStateHead';
 import { Table, Row, Rows } from 'react-native-table-component';
@@ -20,12 +20,12 @@ export default function UpdatePatientStatePage() {
     const [mother, setMother] = useState('');
     const [NNe, setNNE] = useState('');
     const [Hospitalise, setHospitalise] = useState('');
-    const [DAEDC , setDAEDC] = useState("")
-    const [rx , setRx] = useState('')
-    const [Traitement , setTraitment] = useState("")
-    const [Evolution , setEvolution] = useState("")
-    const [DurantLaGarde , setDurantlaGarde] = useState("")
-    
+    const [DAEDC, setDAEDC] = useState("")
+    const [rx, setRx] = useState('')
+    const [Traitement, setTraitment] = useState("")
+    const [Evolution, setEvolution] = useState("")
+    const [DurantLaGarde, setDurantlaGarde] = useState("")
+
     const [data, setData] = useState([
         { header: 'N-Né', input: NNe },
         { header: 'Mère', input: mother },
@@ -36,15 +36,18 @@ export default function UpdatePatientStatePage() {
         { header: 'Evolution', input: Evolution },
         { header: 'Durant la garde', input: DurantLaGarde },
     ]);
-    
+
     useEffect(() => {
         axios.get(`https://localhost:4430/api/matients/${idPatient}`)
             .then(response => {
-   
+
                 setMother(response.data.prenomMere)
                 setNNE(response.data.nom)
                 setHospitalise(response.data.motifDhospitalisation)
-                
+
+                console.log(mother)
+                console.log(NNe)
+                console.log(Hospitalise)
 
             })
             .catch(error => {
@@ -56,46 +59,23 @@ export default function UpdatePatientStatePage() {
                     visibilityTime: 3000,
                 });
             });
-    }, [idPatient,NNe,mother,Hospitalise]);
-
-    // useEffect(() => {
-    //     if (idPatient.trim() === '') {
-    //         setGender('valeur n\'existe pas');
-    //         setProvenance('valeur n\'existe pas');
-    //         setCoverage('valeur n\'existe pas');
-    //         return;
-    //     }
-    //     //Get Patient data
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await axios.get(`https://localhost:4430/api/matients/${idPatient}`);
-              
-    //             console.log(response.data)
-                
-    //             setNNE(response.data.nom);
-    //             setMother(response.data.prenomMere);
-    //             setProvenance(response.data.motifDhospitalisation);
+    }, [idPatient, NNe, mother, Hospitalise]);
 
 
-    //         } catch (error) {
-    //             console.error('Error retrieving data:', error);
-    //             Toast.show({
-    //                 type: 'info',
-    //                 text1: 'erreur est survenu',
-    //                 position: 'bottom',
-    //                 visibilityTime: 3000,
-    //             });
-    //         }
-    //     };
 
-    //     fetchData();
-    // }, [idPatient]);
+
+
+
+
+
+
 
 
     const handleInputChange = (index, value) => {
         setData((prevData) =>
             prevData.map((item, i) => (i === index ? { ...item, input: value } : item))
         );
+        // console.log(data)
     };
 
     const renderRows = () => {
@@ -106,16 +86,22 @@ export default function UpdatePatientStatePage() {
                     <Text style={styles.headerCell}>{item.header}</Text>,
                     item.input === '' ? (
                         <TextInput
-                            style={[styles.cell, styles.multilineCell]}
+
+                            style={item.header === 'Evolution' || item.header === 'Traitement' || item.header === 'Plan Rx' || item.header === 'Durant la garde' ? [styles.cell, styles.multilineCell] : styles.cell} 
                             placeholder={item.input}
-                            multiline
+                            value={item.header === 'N-Né' ? NNe : item.header === 'Mère' ? mother : item.header === 'Hospitalisé pour :' ? Hospitalise : ''}
+
+                            multiline={item.header === 'Evolution' || item.header === 'Traitement' || item.header === 'Plan Rx' || item.header === 'Durant la garde'}
+
                             // value={item.input}
                             onChangeText={(text) => handleInputChange(index, text)}
                         />
                     ) : (
                         <TextInput
                             style={styles.cell}
-                                placeholder={item.input}
+                            multiline={item.header === 'Evolution' || item.header === 'Traitement' || item.header === 'Plan Rx' || item.header === 'Durant la garde'}
+
+                            placeholder={item.input}
                             // value={item.input}
                             onChangeText={(text) => handleInputChange(index, text)}
                         />
@@ -127,90 +113,94 @@ export default function UpdatePatientStatePage() {
         ));
     };
 
-    const showAlert = (title, message) => {
-        Alert.alert(title, message, [{ text: 'OK' }], { cancelable: false });
+
+
+    const storeData = () => {
+        setLoading(true);
+
+        const payloadUpdate = {
+            dateFicheMiseaJourPatient: date,
+            ip: parseInt(idPatient),
+            couvertureSanitaire: coverage,
+            sexe: gender,
+            villeProvenance: provenance
+        };
+
+        const payloadUpdateTable = {
+            nomNne: data[0].input || NNe,
+            prenomMere: data[1].input,
+            motifDhospitalisation: data[2].input,
+            daeDcRetenu: data[3].input,
+            planRx: data[4].input,
+            traitement: data[5].input,
+            evolution: data[6].input,
+            durantLaGarde: data[7].input,
+            ip: parseInt(idPatient)
+        };
+
+        console.log("table", payloadUpdateTable)
+        console.log("form", payloadUpdate)
+
+        axios
+            .all([
+                axios.post('https://localhost:4430/api/fiche_misea_jour_patients', payloadUpdate),
+                axios.post('https://localhost:4430/api/fiche_misea_jour_patient_tables', payloadUpdateTable)
+                // axios.put() modifier la table matient plutard
+            ])
+            .then(axios.spread((updateResponse, tableResponse) => {
+                console.log('Data stored:', updateResponse.data);
+                console.log('Data saved:', tableResponse.data);
+                // Perform any other actions after successful storage
+
+                setLoading(false);
+                Toast.show({
+                    type: 'info',
+                    text1: 'Insertion et modifications réussis',
+                    position: 'bottom',
+                    visibilityTime: 3000,
+                });
+            }))
+            .catch(error => {
+                console.error('Error storing/saving data:', error);
+                console.log('Response Data:', error.response.data);
+                console.log('Response Status:', error.response.status);
+                // Perform error handling or show an error message to the user
+
+                setLoading(false);
+                Toast.show({
+                    type: 'info',
+                    text1: 'Erreur lors de l\'insertion ou de l\'enregistrement des données',
+                    position: 'bottom',
+                    visibilityTime: 3000,
+                });
+            });
+
+
     };
-    const handleSave = () => {
-
-        setLoading(true)
-        
-        setTimeout(() => {
-            setLoading(false);
-        //     // Alert.alert('Success', 'Insertion de la fiche réussie', [{ text: "ok", onPress: () => console.log('OK Pressed') }]);
-
-            
-        Toast.show({
-            type: 'info',
-            text1: 'Insertion reussie',
-            position: 'bottom',
-            visibilityTime: 3000,
-        });
-        }, 2000);
 
 
-        // setLoading(false)
-        // Logic to save the data
-        // console.log(data);
-        // const requestData = {
-        //     date: date,
-        //     coverage: coverage,
-        //     sexe: gender,
-        //     provenance: provenance,
-           
-        // };
-
-        // const TableData = {
-        //     NNE: NNe,
-        //     mere: mother,
-        //     motifDhospitalisation: Hospitalise,
-        //     daedc: DAEDC,
-        //     rx: rx,
-        //     Traitement: Traitement,
-        //     evolution: Evolution,
-        //     durantLagarde: DurantLaGarde,
-        // }
-
-        // axios
-        //     .post('https://localhost:4430/api/FicheMiseaJour', requestData)
-        //     .then(response => {
-        //         console.log('Data saved successfully:', response.data);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error saving data:', error);
-        //     });
-        // axios
-        //     .post('https://localhost:4430/api/FicheMiseaJourTable', TableData)
-        //     .then(response => {
-        //         console.log('Data saved successfully:', response.data);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error saving data:', error);
-        //     });
-
-
-    };
 
     return (
         <ScrollView>
-        <UpdatePatientStateHead
-            sendDateValue={(v)=>setDate(v)}
-            sendIPValue={(v)=>setIdPatient(v)}
-            sendCoverageValue={(v)=>setCoverage(v)}
-            sendGenderValue={(v)=>setGender(v)}
-            sendProvenanceValue={(v)=>setProvenance(v)}
-        />
-        {/* {date} {coverage} {idPatient} {gender} {provenance} */}
+            <UpdatePatientStateHead
+                sendDateValue={(v) => setDate(v)}
+                sendIPValue={(v) => setIdPatient(v)}
+                sendCoverageValue={(v) => setCoverage(v)}
+                sendGenderValue={(v) => setGender(v)}
+                sendProvenanceValue={(v) => setProvenance(v)}
+            />
+            {/* {date} {coverage} {idPatient} {gender} {provenance} */}
 
             <Table style={styles.table}>
                 {renderRows()}
             </Table>
-            
+
             <Spinner visible={loading} textContent={'loading...'} textStyle={styles.spinnerText} />
             <Toast ref={(ref) => Toast.setRef(ref)} />
-           
+
             <Button
                 title="Enregistrer"
-                onPress={handleSave}
+                onPress={storeData}
                 buttonStyle={styles.button}
                 titleStyle={styles.buttonText}
             />
@@ -231,9 +221,9 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         backgroundColor: 'lightgray',
-        fontWeight:'bold',
+        fontWeight: 'bold',
         textAlign: 'center',
-        borderWidth:1
+        borderWidth: 1
     },
     cell: {
         flex: 1,
