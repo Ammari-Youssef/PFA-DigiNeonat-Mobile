@@ -56,7 +56,7 @@ export default function DacHead(props) {
                 console.error('Error status data:', error.response.status);
                 Toast.show({
                     type: 'info',
-                    text1: 'erreur est survenue',
+                    text1: 'Veuillez entrer les données',
                     position: 'bottom',
                     visibilityTime: 3000,
                 });

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Button,ScrollView } from 'react-native'
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import DacHead from '../components/DacHead'
 import DacTable from '../components/DacTable';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -47,11 +47,41 @@ const [loading , setLoading] = useState(false)
         }, 2000);
     }
 
+
+    const saveData = () => {
+        const data = {
+            ip: parseInt(idPatient) ,
+            etablissement: etablissmenet ,
+            service: service ,
+            nAdmission: n_admission ,
+            nomPrenom: fullName ,
+            age: parseInt(age) ,
+            dateFicheDACDHosipitalisation: dateHospitalisation ,
+            mois: month ,
+            annee: year ,
+            nSalle: n_salle ,
+            nLit: n_lit ,
+            diagnostic: diagnostic ,
+            nFiche: n_fiche 
+        };
+
+        axios.post('https://localhost:4430/api/fiche_surveillance_d_a_cs', data)
+            .then(response => {
+                console.log('Data saved successfully');
+                // Perform any other actions after successful data submission
+            })
+            .catch(error => {
+                console.error('Error saving data:', error);
+                console.error('Error response:', error.response);
+                // Handle any API errors or network issues
+            });
+    };
+
     return (
         <ScrollView>
         <View style={styles.container}>
             <DacHead
-                    sendIPValue={(v)=> setIdPatient(v)}
+                sendIPValue={(v)=> setIdPatient(v)}
                 sendEtablissementValue={(v)=>setEtablissement(v)}
                 sendServiceValue={(v)=>setService(v)}
                 sendNAdmissionValue={(v)=>setNAdmission(v)}
@@ -71,7 +101,7 @@ const [loading , setLoading] = useState(false)
 
             <View>
                 <Button
-                    onPress={save}
+                    onPress={saveData}
                     title="Enregistrer"
                     buttonStyle={styles.button}
                     titleStyle={styles.buttonText}

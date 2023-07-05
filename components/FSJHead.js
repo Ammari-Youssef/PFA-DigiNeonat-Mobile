@@ -8,6 +8,8 @@ export default function FSJHead() {
     const [month, setMonth] = useState('');
     const [year, setYear] = useState(new Date().getFullYear());
     const [date, setDate] = useState('');
+    const [nomMaman, setNomMaman] = useState();
+    const [idPatient, setIdPatient] = useState();
     const [loading, setLoading] = useState(false);
 
     const handleDateChange = (text) => {
@@ -53,6 +55,10 @@ export default function FSJHead() {
            
             <View style={styles.formContainer}>
                 <View style={styles.row}>
+                    <Text style={styles.label}>IP :</Text>
+                    <TextInput style={styles.input} placeholder="" onChangeText={(v)=>setidPatient(v)} value={idPatient} />
+                </View>
+                <View style={styles.row}>
                     <Text style={styles.label}>Date :</Text>
                     <TextInput
                         style={styles.input}
@@ -65,7 +71,7 @@ export default function FSJHead() {
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.label}>NN de Mme :</Text>
-                    <TextInput style={styles.input} placeholder="" />
+                    <TextInput style={styles.input} placeholder="" onChangeText={(v)=>setNomMaman(v)} />
                 </View>
             </View>
 

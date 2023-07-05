@@ -135,7 +135,8 @@ export default function UpdatePatientStatePage() {
             traitement: data[5].input,
             evolution: data[6].input,
             durantLaGarde: data[7].input,
-            ip: parseInt(idPatient)
+            ip: parseInt(idPatient),
+            dateFicheMiseaJourPatient:date
         };
 
         console.log("table", payloadUpdateTable)

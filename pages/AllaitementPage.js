@@ -158,7 +158,8 @@ export default function AllaitementPage() {
         ip: parseInt(idPatient),
         heureFicheAllaitement: row.heure,
         givenQuantity: parseFloat(row.quantite),
-        residu: row.residus
+        residu: row.residus,
+        dateFicheAllaitement:date
       };
       return axios.post('https://localhost:4430/api/fiche_allaitement_tables', payload);
     });
@@ -172,7 +173,7 @@ export default function AllaitementPage() {
         Toast.show({
           type: 'info',
           text1: 'Les donneeés de la fiche sont bien insérées',
-          position: 'top',
+          position: 'bottom',
           visibilityTime: 3000,
         });
       })
