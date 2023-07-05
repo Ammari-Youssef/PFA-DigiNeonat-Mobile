@@ -10,6 +10,24 @@ import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 export default function DacPage() {
 const [loading , setLoading] = useState(false)
+//Varibles du head
+    const [month, setMonth] = useState();
+    const [year, setYear] = useState();
+    const [n_salle, setNSalle] = useState();
+    const [n_fiche, setNFiche] = useState()
+    const [n_lit, setNLit] = useState()
+    const [diagnostic, setDiagnostic] = useState()
+
+    const [fullName, setFullName] = useState()
+    const [age, setAge] = useState()
+    const [dateHospitalisation, setDateHospitalisation] = useState()
+
+    const [idPatient, setIdPatient] = useState()
+    const [etablissmenet, setEtablissement] = useState()
+    const [service, setService] = useState()
+    const [n_admission, setNAdmission] = useState()
+
+    // variables du tableau
 
     const save = () => {
 
@@ -32,7 +50,22 @@ const [loading , setLoading] = useState(false)
     return (
         <ScrollView>
         <View style={styles.container}>
-            <DacHead />
+            <DacHead
+                    sendIPValue={(v)=> setIdPatient(v)}
+                sendEtablissementValue={(v)=>setEtablissement(v)}
+                sendServiceValue={(v)=>setService(v)}
+                sendNAdmissionValue={(v)=>setNAdmission(v)}
+                sendfullNameValue={(v)=>setFullName(v)}
+                sendAgeValue={(v)=>setAge(v)}
+                sendDateValue={(v)=>setDateHospitalisation(v)}
+                sendYearValue={(v)=>setYear(v)}
+                sendMonthValue={(v)=>setMonth(v)}
+                sendNSalleValue={(v)=>setNSalle(v)}
+                sendNLitValue={(v)=>setNLit(v)}
+                sendDiagnosticValue={(v)=>setDiagnostic(v)}
+                sendNFicheValue={(v)=>setNFiche(v)}
+
+            />
             <DacTable />
                 <Spinner visible={loading} textContent={'loading...'} textStyle={styles.spinnerText} />
 

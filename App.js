@@ -23,7 +23,7 @@ const Stack = createStackNavigator();
 
 function App() {
 
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(true);
   // const navigation = useNavigation()
 
   // Function to handle login

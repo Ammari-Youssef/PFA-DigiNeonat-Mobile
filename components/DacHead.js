@@ -2,14 +2,69 @@ import { Text, TextInput, View, StyleSheet, Image } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import axios from 'axios';
-export default function DacHead() {
+export default function DacHead(props) {
 
-    const [month, setMonth] = useState('');
+    const [month, setMonth] = useState(new Date().getMonth() + 1);
     const [year, setYear] = useState(new Date().getFullYear());
-    const [date, setDate] = useState('');
-    const [idPatient, setIdPatient] = useState()
+    const [n_salle, setNSalle] = useState();
+    const [n_fiche, setNFiche] = useState()
+    const [n_lit, setNLit] = useState()
+    const [diagnostic, setDiagnostic] = useState()
 
-    
+    const [fullName, setFullName] = useState()
+    const [age, setAge] = useState()
+    const [dateHospitalisation, setDateHospitalisation] = useState(new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }))
+
+    const [idPatient, setIdPatient] = useState()
+    const [etablissmenet, setEtablissement] = useState()
+    const [service, setService] = useState()
+    const [n_admission, setNAdmission] = useState()
+
+    useEffect(() => {
+
+
+        props.sendIPValue(idPatient)
+        props.sendEtablissementValue(etablissmenet)
+        props.sendServiceValue(service)
+        props.sendNAdmissionValue(n_admission)
+        props.sendfullNameValue(fullName)
+        props.sendAgeValue(age)
+        props.sendDateValue(dateHospitalisation)
+        props.sendYearValue(year)
+        props.sendMonthValue(month)
+        props.sendNSalleValue(n_salle)
+        props.sendNLitValue(n_lit)
+        props.sendDiagnosticValue(diagnostic)
+        props.sendNFicheValue(n_fiche)
+
+
+    }, [dateHospitalisation, idPatient, month, n_admission, n_lit, n_salle, diagnostic, n_fiche, age, service, etablissmenet, fullName]);
+
+    useEffect(() => {
+
+        //GEt Patient mothername
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`https://localhost:4430/api/matients/${idPatient}`);
+                const data = response.data;
+                console.log("data dyali " ,data);
+                setAge(data.age);
+                setFullName(data.nom);
+            } catch (error) {
+                console.error('Error retrieving data:', error);
+                console.error('Error response data:', error.response.data);
+                console.error('Error status data:', error.response.status);
+                Toast.show({
+                    type: 'info',
+                    text1: 'erreur est survenue',
+                    position: 'bottom',
+                    visibilityTime: 3000,
+                });
+            }
+        };
+
+        fetchData();
+    }, [idPatient]);
 
     const handleDateChange = (text) => {
 
@@ -25,7 +80,7 @@ export default function DacHead() {
         // Format the date as "jj/mm/aaaa"
         const formattedDate = `${day}/${month}/${year}`;
 
-        setDate(formattedDate);
+        setDateHospitalisation(formattedDate);
     };
 
     const handleMonthChange = (text) => {
@@ -40,7 +95,7 @@ export default function DacHead() {
             setMonth(cleanedText);
         } else {
             // Invalid month input, clear the value or display an error message
-            setMonth('');
+            setMonth();
         }
     };
     const handleYearChange = (text) => {
@@ -54,22 +109,36 @@ export default function DacHead() {
             {/* First Form */}
             <View style={styles.formContainer}>
                 <View style={styles.row}>
-                    <Text style={styles.label}>Nom et Prénom:</Text>
-                    <TextInput style={styles.input} placeholder="" />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Age:</Text>
-                    <TextInput style={styles.input} placeholder="" keyboardType="numeric" />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Date d'hospitalisation:</Text>
+                    <Text style={styles.label}>IP:</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="jj/mm/aaaa"
-                        value={date}
-                        onChangeText={handleDateChange}
-                        maxLength={10}
+                        placeholder=""
+                        onChangeText={(text) => setIdPatient(text)}
+                    />
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Ètablissement:</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder=""
+                        onChangeText={(text) => setEtablissement(text)}
+                    />
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Service:</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder=""
+                        onChangeText={(text) => setService(text)}
+                    />
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.label}>N° d'admission:</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder=""
                         keyboardType="numeric"
+                        onChangeText={(text) => setNAdmission(text)}
                     />
                 </View>
             </View>
@@ -77,24 +146,37 @@ export default function DacHead() {
             {/* Second Form */}
             <View style={styles.formContainer}>
                 <View style={styles.row}>
-                    <Text style={styles.label}>Ètablissement:</Text>
-                    <TextInput style={styles.input} placeholder="" />
+                    <Text style={styles.label}>Nom et Prénom:</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder=""
+                        onChangeText={(text) => setFullName(text)}
+                        value={fullName}
+                    />
                 </View>
                 <View style={styles.row}>
-                    <Text style={styles.label}>Service:</Text>
-                    <TextInput style={styles.input} placeholder="" />
+                    <Text style={styles.label}>Age:</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder=""
+                        keyboardType="numeric"
+                        onChangeText={(text) => setAge(text)}
+                        value={age}
+                    />
                 </View>
                 <View style={styles.row}>
-                    <Text style={styles.label}>N° d'admission:</Text>
-                    <TextInput style={styles.input} placeholder="" keyboardType="numeric" />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>IP:</Text>
-                    <TextInput style={styles.input} placeholder=""  
-                        onChangeText={(text) => setIdPatient(text)}
+                    <Text style={styles.label}>Date d'hospitalisation:</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="jj/mm/aaaa"
+                        value={dateHospitalisation}
+                        onChangeText={handleDateChange}
+                        maxLength={10}
+                        keyboardType="numeric"
                     />
                 </View>
             </View>
+
 
             {/* Separator */}
             <View style={styles.separator} />
@@ -106,7 +188,7 @@ export default function DacHead() {
                     <TextInput
                         style={styles.input}
                         placeholder=""
-                        onChangeText={text => handleMonthChange(text)}
+                        onChangeText={(text) => handleMonthChange(text)}
                         value={month}
                         keyboardType="numeric"
                         maxLength={2}
@@ -117,7 +199,7 @@ export default function DacHead() {
                     <TextInput
                         style={styles.input}
                         placeholder=""
-                        onChangeText={text => handleYearChange(text)}
+                        onChangeText={(text) => handleYearChange(text)}
                         value={year}
                         keyboardType="numeric"
                         maxLength={4}
@@ -125,19 +207,38 @@ export default function DacHead() {
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.label}>N° de salle:</Text>
-                    <TextInput style={styles.input} placeholder="" keyboardType="numeric" />
+                    <TextInput
+                        style={styles.input}
+                        placeholder=""
+                        keyboardType="numeric"
+                        onChangeText={(text) => setNSalle(text)}
+                    />
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.label}>N° de lit:</Text>
-                    <TextInput style={styles.input} placeholder="" keyboardType="numeric" />
+                    <TextInput
+                        style={styles.input}
+                        placeholder=""
+                        keyboardType="numeric"
+                        onChangeText={(text) => setNLit(text)}
+                    />
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.label}>Diagnostic:</Text>
-                    <TextInput style={styles.input} placeholder="" keyboardType="numeric" />
+                    <TextInput
+                        style={styles.input}
+                        placeholder=""
+                        onChangeText={(text) => setDiagnostic(text)}
+                    />
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.label}>Fiche n°:</Text>
-                    <TextInput style={styles.input} placeholder="" keyboardType="numeric" />
+                    <TextInput
+                        style={styles.input}
+                        placeholder=""
+                        keyboardType="numeric"
+                        onChangeText={(text) => setNFiche(text)}
+                    />
                 </View>
             </View>
 

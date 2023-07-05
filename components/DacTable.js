@@ -4,33 +4,33 @@ import { View, StyleSheet, TextInput } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 
 
-export default function table2() {
+export default function Dactable() {
     const [tableData, setTableData] = useState([
-        ['8h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['9h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['10h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['11h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['12h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['13h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['14h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['15h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['16h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['17h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['18h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['19h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['20h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['21h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['22h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['23h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['24h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['1h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['2h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['3h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['4h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['5h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
-        ['6h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['8:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['9:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['10:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['11:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['12:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['13:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['14:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['15:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['16:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['17:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['18:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['19:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['20:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['21:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['22:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['23:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['24:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['1:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['2:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['3:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['4:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['5:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['6:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
        
-        ['7h', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
+        ['7:00', <TextInput style={styles.input} />, <TextInput style={styles.input} />, <TextInput style={styles.input} />],
     ]);
 
     const tableHeaders = ['Heure', 'Glyémie', 'Glycosurie', 'Acétonurie'];

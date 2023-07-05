@@ -14,14 +14,14 @@ import axios, { Axios } from 'axios';
 
 export default function AllaitementPage() {
   const [data, setData] = useState([
-    { id: '1', heure: '08:00', quantite: '', residus: '' },
-    { id: '2', heure: '11:00', quantite: '', residus: '' },
-    { id: '3', heure: '14:00', quantite: '', residus: '' },
-    { id: '4', heure: '17:00', quantite: '', residus: '' },
-    { id: '5', heure: '20:00', quantite: '', residus: '' },
-    { id: '6', heure: '23:00', quantite: '', residus: '' },
-    { id: '7', heure: '02:00', quantite: '', residus: '' },
-    { id: '8', heure: '05:00', quantite: '', residus: '' },
+    { id: '1', heure: '08:00', quantite: '', residus: 'oui' },
+    { id: '2', heure: '11:00', quantite: '', residus: 'oui' },
+    { id: '3', heure: '14:00', quantite: '', residus: 'oui' },
+    { id: '4', heure: '17:00', quantite: '', residus: 'oui' },
+    { id: '5', heure: '20:00', quantite: '', residus: 'oui' },
+    { id: '6', heure: '23:00', quantite: '', residus: 'oui' },
+    { id: '7', heure: '02:00', quantite: '', residus: 'oui' },
+    { id: '8', heure: '05:00', quantite: '', residus: 'oui' },
   ]);
   
   const [weight, setWeight] = useState();

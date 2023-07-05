@@ -54,7 +54,7 @@ export default function UpdatePatientStatePage() {
                 console.error('Error retrieving data:', error);
                 Toast.show({
                     type: 'info',
-                    text1: 'erreur de recuperation du données est survenu',
+                    text1: 'Veuillez entrer l\'IP du patient',
                     position: 'bottom',
                     visibilityTime: 3000,
                 });

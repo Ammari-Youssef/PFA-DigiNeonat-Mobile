@@ -5,11 +5,12 @@ import { sectionStorage } from '../components/FSJTable'
 import Spinner from 'react-native-loading-spinner-overlay';
 import axios from 'axios';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { useState } from 'react';
 
 
 
 
-export default function DacPage() {
+export default function FSJPage() {
     const [loading, setLoading] = useState(false);
 
     const save = () => {
