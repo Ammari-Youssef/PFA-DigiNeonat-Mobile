@@ -4,7 +4,9 @@ import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import Spinner from 'react-native-loading-spinner-overlay';
 
+import { useRoute } from '@react-navigation/native';
 
 export default function LoginForm(props) {
 
@@ -13,7 +15,7 @@ export default function LoginForm(props) {
   const [error, setError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-
+const [loading , setLoading] = useState()
 
   const navigation = useNavigation();
 
@@ -30,6 +32,10 @@ export default function LoginForm(props) {
 
       if (response.status === 200) {
         props.handleLogin()
+       setTimeout(() => {
+        setLoading(true)
+       }, 3000);
+
       }
 
     } catch (error) {
@@ -102,6 +108,7 @@ export default function LoginForm(props) {
           secureTextEntry={true}
         />
       </View>
+      <Spinner visible={loading} textContent={'chargement...'} textStyle={styles.spinnerText} />
 
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Se connecter</Text>

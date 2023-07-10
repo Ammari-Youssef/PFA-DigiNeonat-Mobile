@@ -8,7 +8,7 @@ export default function SendButton() {
         const med = medData();
         const fichier = { ...med, Soins: SoinData, GeneralInformation: GeneralInformationData };
         console.log(fichier);
-        const backendURL = 'https://localhost:4430/api/fms'; // change when the server is hosted
+        const backendURL = 'https://localhost:4430/api/fiche_mesures'; // change when the server is hosted
         // Implement sending to backend logic
         fetch(backendURL, {
             method: 'POST',

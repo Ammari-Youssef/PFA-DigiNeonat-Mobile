@@ -1,3 +1,5 @@
 # Projet CHU Neonatale mobile
 
-<!-- vise à informatisé la saisie des informations des patient dans des annexes -->
+Projet qui vise à informatiser la gestion des informations des patient dans des annexes medicales .
+
+

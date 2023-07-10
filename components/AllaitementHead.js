@@ -4,18 +4,24 @@ import { Picker } from '@react-native-picker/picker'
 import axios from 'axios'
 // import MySQLService from '../services/MySQLServices';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { useRoute } from '@react-navigation/native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 
 export default function AllaitementHead(props) {
 
     const [date, setDate] = useState(new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }))
-    const [weight, setWeight] = useState(0)
+    const [weight, setWeight] = useState(null)
     const [isPrematureAterme, setPrematureAterme] = useState("aterme")
     const [quantite, setQuantite] = useState(0)
     const [motherName, setMotherName] = useState("");
-    const [idPatient, setIdPatient] = useState();
+    const [idPatient, setIdPatient] = useState(props.data);
     const [data, setData] = useState()
+
+    const route = useRoute();
+    const {fileId,action} = route.params;
+    
 
     useEffect(() => {
 
@@ -33,22 +39,42 @@ export default function AllaitementHead(props) {
         //     setMotherName('nom maman n\'existe pas taper un autre ip');
         //     return;
         // }
+        
+        console.log('idPatient', idPatient)
         //GEt Patient mothername
         const fetchData = async () => {
             try {
                 const response = await axios.get(`https://localhost:4430/api/matients/${idPatient}`);
-                setData(response.data);
-                console.log(data)
+               
+
+
                 const prenomMere = response.data.prenomMere;
+                const poids = response.data.poidsNaiss;
                 setMotherName(prenomMere);
+                setWeight(poids);
             } catch (error) {
                 console.error('Error retrieving data:', error);
-                setMotherName('Insèrer un ip valide ou changer nom de la maman');
+              
+                setMotherName(' maman de ce patient n\'existe pas ');
+
             }
         };
 
         fetchData();
     }, [idPatient]);
+
+    // useEffect(()=>{
+    //     const dwr = async ()=>{
+
+    //         const response2 = await axios.get(`https://localhost:4430/api/fiche_allaitements?ip=${idPatient}`);
+    //         const pd = response2.data.poids
+    //         setWeight(pd)
+    //     }
+    // },weight)
+
+useEffect(()=>{
+    setIdPatient(fileId)
+},[fileId])
 
 
     const handleDateChange = (text) => {
@@ -157,18 +183,18 @@ export default function AllaitementHead(props) {
                     keyboardType='numeric'
                     placeholder="Identifiant du patient"
                     onChangeText={(text) => setIdPatient(text)}
-
+                    value={idPatient}
                 />
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>Né du madame:  </Text>
-                {/* {motherName} */}
-                <TextInput
+                {motherName}
+                {/* <TextInput
                     style={styles.input}
                     placeholder="Insérer nom maman"
                     onChangeText={(text) => setMotherName(text)}
                     value={motherName}
-                />
+                /> */}
 
             </View>
             <View style={styles.row}>
@@ -202,6 +228,7 @@ export default function AllaitementHead(props) {
                         setWeight(text);
                         setQuantite(calculateQuantite(text, isPrematureAterme));
                         // props.sendRecQuantityValue(calculateQuantite(text, isPrematureAterme));
+                        value={weight}
                     }}
                 />
             </View>
@@ -214,6 +241,8 @@ export default function AllaitementHead(props) {
                 buttonStyle={styles.button}
                 titleStyle={styles.buttonText}
             /> */}
+            <Toast ref={(ref) => Toast.setRef(ref)} />
+
         </View>
     )
 }

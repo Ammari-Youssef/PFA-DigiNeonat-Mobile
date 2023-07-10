@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         gap: 10,
         borderWidth: 1,
-        borderColor: "red",
+        borderColor: "blue",
         padding: 15,
         borderRadius: 15
     }

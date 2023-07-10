@@ -2,6 +2,8 @@ import { Text, TextInput, View, StyleSheet, Image } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import axios from 'axios';
+import { useRoute } from '@react-navigation/native';
+
 export default function DacHead(props) {
 
     const [month, setMonth] = useState(new Date().getMonth() + 1);
@@ -42,7 +44,7 @@ export default function DacHead(props) {
 
     useEffect(() => {
 
-        //GEt Patient mothername
+        //GEt Patient data
         const fetchData = async () => {
             try {
                 const response = await axios.get(`https://localhost:4430/api/matients/${idPatient}`);

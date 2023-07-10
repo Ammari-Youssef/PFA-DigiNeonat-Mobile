@@ -11,13 +11,14 @@ import DashboardPage from './pages/DashboardPage';
 import LoginPage from './pages/LoginPage';
 import InterfaceMesure from './pages/InterfaceMesure';
 import FSJ from './pages/FSJ';
-
+import FileListPage from './pages/FileListPage';
 
 import { View, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-paper';
 import { Feather } from '@expo/vector-icons';
 //Hooks
 import { useState } from 'react';
+
 
 const Stack = createStackNavigator();
 
@@ -60,16 +61,16 @@ function App() {
               )
             }} />
 
-            <Stack.Screen name="Update" component={UpdatePatientStatePage} options={{ title: 'Fiche de la mise à jour du patient', }} />
+            <Stack.Screen name="fiche_misea_jour_patient" component={UpdatePatientStatePage} options={{ title: 'Fiche de la mise à jour du patient', }} />
 
-            <Stack.Screen name="Allaitement" component={AllaitementPage} options={{
+            <Stack.Screen name="fiche_allaitement" component={AllaitementPage} options={{
               title: 'Fiche d\'allaitement journalière',
             }} />
-            <Stack.Screen name="FSJ" component={FSJ} options={{ title: 'Fiche de surveillance journalière', }} />
-            <Stack.Screen name="DAC" component={DacPage} options={{ title: 'Fiche de surveillance D.A.C', }} />
-            <Stack.Screen name="Mesure" component={InterfaceMesure} options={{ title: 'Fiche des mesures', }} />
+            <Stack.Screen name="fiche_surveillance" component={FSJ} options={{ title: 'Fiche de surveillance journalière', }} />
+            <Stack.Screen name="fiche_surveillance_d_a_c" component={DacPage} options={{ title: 'Fiche de surveillance D.A.C', }} />
+            <Stack.Screen name="fiche_mesure" component={InterfaceMesure} options={{ title: 'Fiche des mesures', }} />
+            <Stack.Screen name="FileList" component={FileListPage} options={{ title: 'List des fiches', }} />
 
-            {/* <Stack.Screen name="Mesures" component={MesurePage} options={{ title: 'Mesure Page' }} />  */}
 
           </>
         ) : (

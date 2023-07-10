@@ -50,12 +50,12 @@ export default function FSJTable() {
               <Rows widthArr={widthArr} data={tableData} style={styles.tableRow} textStyle={styles.rowText} />
             </Table>
         </ScrollView>
-        <Button
+        {/* <Button
             onPress={clearTableData}
             title="Effacer"
             buttonStyle={styles.button}
             titleStyle={styles.buttonText}
-            /> 
+            />  */}
     </SafeAreaView>
   )
 }

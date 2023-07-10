@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         padding: 10,
         borderWidth: 1,
-        borderColor: '#E0776B',
+        borderColor: 'blue',
         borderRadius: 8
     },
     subContainer: {

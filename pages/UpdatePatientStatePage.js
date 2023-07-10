@@ -5,6 +5,7 @@ import { Table, Row, Rows } from 'react-native-table-component';
 import Spinner from 'react-native-loading-spinner-overlay';
 import axios from 'axios';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function UpdatePatientStatePage() {
@@ -62,7 +63,59 @@ export default function UpdatePatientStatePage() {
     }, [idPatient, NNe, mother, Hospitalise]);
 
 
+//Keep data held eve, leaving screen 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const storedData = await AsyncStorage.getItem('tableData');
+                const storedIdPatient = await AsyncStorage.getItem('idPatient');
+                const storedCoverage = await AsyncStorage.getItem('coverage');
+                const storedGender = await AsyncStorage.getItem('gender');
+                const storedProvenance = await AsyncStorage.getItem('provenance');
+                const storedDate = await AsyncStorage.getItem('date');
 
+                if (storedData) {
+                    setData(JSON.parse(storedData));
+                }
+                if (storedIdPatient) {
+                    setIdPatient(JSON.parse(storedIdPatient));
+                }
+                if (storedCoverage) {
+                    setCoverage(JSON.parse(storedCoverage));
+                }
+                if (storedGender) {
+                    setGender(JSON.parse(storedGender));
+                }
+                if (storedProvenance) {
+                    setProvenance(JSON.parse(storedProvenance));
+                }
+                if (storedDate) {
+                    setDate(JSON.parse(storedDate));
+                }
+            } catch (error) {
+                console.error('Error retrieving data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const saveData = async () => {
+            try {
+                await AsyncStorage.setItem('tableData', JSON.stringify(data));
+                await AsyncStorage.setItem('idPatient', JSON.stringify(idPatient));
+                await AsyncStorage.setItem('coverage', JSON.stringify(coverage));
+                await AsyncStorage.setItem('gender', JSON.stringify(gender));
+                await AsyncStorage.setItem('provenance', JSON.stringify(provenance));
+                await AsyncStorage.setItem('date', JSON.stringify(date));
+            } catch (error) {
+                console.error('Error saving data:', error);
+            }
+        };
+
+        saveData();
+    }, [data, idPatient, coverage, gender, provenance, date]);
 
 
 
@@ -116,34 +169,34 @@ export default function UpdatePatientStatePage() {
 
 
     const storeData = () => {
-        if (
-            idPatient !== null ||
-            coverage !== null ||
-            gender !== null ||
-            provenance !== null ||
-            date !== null ||
-            mother !== null ||
-            NNe !== null ||
-            Hospitalise !== null ||
-            DAEDC !== null ||
-            rx !== null ||
-            Traitement !== null ||
-            Evolution !== null ||
-            DurantLaGarde !== null
-        ) {
-            Toast.show({
-                type: 'info',
-                text1: 'Un ou plusieurs champs sont vides .Réessayez ',
-                position: 'bottom',
-                visibilityTime: 3000,
-            });
-            return;
-}
+//         if (
+//             idPatient != null ||
+//             coverage != null ||
+//             gender != null ||
+//             provenance != null ||
+//             date != null ||
+//             mother != null ||
+//             NNe !== null ||
+//             Hospitalise != null ||
+//             DAEDC != null ||
+//             rx != null ||
+//             Traitement != null ||
+//             Evolution != null ||
+//             DurantLaGarde != null
+//         ) {
+//             Toast.show({
+//                 type: 'info',
+//                 text1: 'Un ou plusieurs champs sont vides .Réessayez ',
+//                 position: 'bottom',
+//                 visibilityTime: 3000,
+//             });
+//             return;
+// }
 
         setLoading(true);
 
         const payloadUpdate = {
-            dateFicheMiseaJourPatient: date,
+            date: date,
             ip: parseInt(idPatient),
             couvertureSanitaire: coverage,
             sexe: gender,
@@ -160,7 +213,7 @@ export default function UpdatePatientStatePage() {
             evolution: data[6].input,
             durantLaGarde: data[7].input,
             ip: parseInt(idPatient),
-            dateFicheMiseaJourPatient:date
+            date:date
         };
 
         console.log("table", payloadUpdateTable)
@@ -180,14 +233,14 @@ export default function UpdatePatientStatePage() {
                 setLoading(false);
                 Toast.show({
                     type: 'info',
-                    text1: 'Insertion et modifications réussis',
+                    text1: 'Insertion ou modification a réussis',
                     position: 'bottom',
                     visibilityTime: 3000,
                 });
             }))
             .catch(error => {
                 console.error('Error storing/saving data:', error);
-                console.log('Response Data:', error.response.data);
+                console.error('Response Data:', error.response.data);
                 console.log('Response Status:', error.response.status);
                 // Perform error handling or show an error message to the user
 

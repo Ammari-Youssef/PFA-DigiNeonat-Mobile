@@ -1,12 +1,13 @@
 import { View, Text, StyleSheet, Button, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import DacHead from '../components/DacHead'
 import DacTable from '../components/DacTable';
 import Spinner from 'react-native-loading-spinner-overlay';
 import axios from 'axios';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRoute } from '@react-navigation/native';
 
 export default function DacPage() {
     const [loading, setLoading] = useState(false)
@@ -28,13 +29,54 @@ export default function DacPage() {
     const [n_admission, setNAdmission] = useState()
 
     // variables du tableau
-    const [tableData, setTableData] = useState();
+    const [tableData, setTableData] = useState([]);
+
+const route = useRoute()
+const {fileId,action }=route.params
+
+useEffect(()=> {
+    setIdPatient(fileId)
+} , [fileId])
+
+
 
     const handleTableDataChange = (data) => {
         setTableData(data);
         // console.log(data)
         console.log('ma data ', tableData)
     };
+
+    //conserver données meme si on quitte la page
+    const saveFormData = async (data) => {
+        try {
+            await AsyncStorage.setItem('atted', JSON.stringify(data));
+        } catch (error) {
+            console.error('Error saving form data:', error);
+        }
+    };
+    //Conserver les données meme quitter la page
+
+    const handleFormUpdate = (updatedData) => {
+        setData(updatedData);
+        saveFormData(updatedData);
+    };
+
+    const loadFormData = async () => {
+        try {
+            const savedData = await AsyncStorage.getItem('atted');
+            if (savedData) {
+                setData(JSON.parse(savedData));
+                console.log('Form data loaded successfully');
+            }
+        } catch (error) {
+            console.error('Error loading form data:', error);
+        }
+    };
+
+    useEffect(() => {
+        if (action == "read")
+            loadFormData();
+    }, []);
 
 
     const save = () => {
@@ -43,13 +85,12 @@ export default function DacPage() {
 
         setTimeout(() => {
             setLoading(false);
-            //     // Alert.alert('Success', 'Insertion de la fiche réussie', [{ text: "ok", onPress: () => console.log('OK Pressed') }]);
-
+            
 
             Toast.show({
                 type: 'info',
                 text1: 'Insertion reussie',
-                position: 'top',
+                position: 'bottom',
                 visibilityTime: 3000,
             });
         }, 2000);
@@ -58,7 +99,7 @@ export default function DacPage() {
     const saveData2 = () => {
         // Format the tableData to match the API structure
         const formattedData = tableData.map((rowData) => ({
-            heureFicheDAC: rowData[0]||'8:00',
+            heureFicheDAC: rowData[0],
             glymie: parseFloat(rowData[1]),
             glycosurie:parseFloat( rowData[2]),
             acetonurie:parseFloat( rowData[3]),
@@ -66,10 +107,11 @@ export default function DacPage() {
             nFiche: parseInt(n_fiche),
         }));
 
-        // // console.log("payload",formattedData)
-        // formattedData.forEach((data) => {
-        //     console.log('heureFicheDAC:', data.heureFicheDAC);
-        // });
+        // console.log('heureFicheDAC:', formattedData.tablesheureFicheDAC); // Add this line
+        // console.log("payload",formattedData)
+        formattedData.forEach((data) => {
+            console.log('heureFicheDAC:', data.heureFicheDAC);
+        });
         // Make the POST request to the endpoint
         axios
             .post('https://localhost:4430/api/fiche_surveillance_d_a_c_tables', formattedData)
@@ -111,6 +153,7 @@ export default function DacPage() {
             });
             return;
         }
+        setLoading(true)
         const data = {
             ip: parseInt(idPatient),
             etablissement: etablissmenet,
@@ -118,7 +161,7 @@ export default function DacPage() {
             nAdmission: parseInt(n_admission),
             nomPrenom: fullName,
             age: parseInt(age),
-            dateFicheDACDHosipitalisation: dateHospitalisation,
+            date: dateHospitalisation,
             mois: parseInt(month),
             annee: parseInt(year),
             nSalle: parseInt(n_salle),
@@ -126,11 +169,12 @@ export default function DacPage() {
             diagnostic: diagnostic,
             nFiche: parseInt(n_fiche)
         };
-        console.log('heureFicheDAC:', data.heureFicheDAC); // Add this line
 
 
         axios.post('https://localhost:4430/api/fiche_surveillance_d_a_cs', data)
             .then(response => {
+
+                setLoading(false)
                 console.log('Data saved successfully');
                 // Perform any other actions after successful data submission
                 Toast.show({
@@ -141,6 +185,7 @@ export default function DacPage() {
                 });
             })
             .catch(error => {
+                setLoading(false)
                 console.error('Error saving data:', error);
                 console.error('Error response:', error.response);
                 // Handle any API errors or network issues
@@ -167,19 +212,19 @@ export default function DacPage() {
 
                 />
                 <DacTable onTableDataChange={handleTableDataChange} />
-                <Spinner visible={loading} textContent={'loading...'} textStyle={styles.spinnerText} />
+                <Spinner visible={loading} textContent={'chargement...'} textStyle={styles.spinnerText} />
 
                 <View>
                     <Button
-                        onPress={saveData2}
+                        onPress={save}
                         title="Enregistrer"
                         buttonStyle={styles.button}
                         titleStyle={styles.buttonText}
                         accessibilityLabel="Learn more about this purple button"
                     />
                 </View>
-                <Toast ref={(ref) => Toast.setRef(ref)} />
             </View>
+                <Toast ref={(ref) => Toast.setRef(ref)} />
         </ScrollView>
     );
 };
