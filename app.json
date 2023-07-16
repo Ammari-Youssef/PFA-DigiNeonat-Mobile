@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "CHU-Neonatale-Mobile",
-    "slug": "CHU-Neonatale-Mobile",
+    "name": "DigiNeonat",
+    "slug": "digineonat",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/degi_transparent_logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/degineonaticonapp.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
