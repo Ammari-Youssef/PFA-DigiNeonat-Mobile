@@ -2,7 +2,7 @@
   <div>
     <img src="./assets/Readme/UMPO Logo.png" alt="Logo MIA" align="left" width="100px" style="margin-right: 10px;">
   </div>
-    <h6>DegiNeoNat</h6>
+    <h1>DigiNeoNat</h1>
   <div>
     <img src="./assets/Readme/MIA Logo.jpg" alt="Logo UMP" align="right" width="100px" style="margin-left: 10px;">
   </div>
