@@ -93,7 +93,6 @@ Install my-project with npm
 ``` -->
 
 
-- Interface pour gérer les fiches insérées
-
-
-![](./assets/Readme/list_fiches.jpeg)
+|                                | Image                                                |
+| --------------------------------------- | ---------------------------------------------------- |
+| Interface pour gérer les fiches insérées | ![Interface Image](./assets/Readme/list_fiches.jpeg) |
