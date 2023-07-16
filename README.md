@@ -1,17 +1,16 @@
-<!-- # Projet CHU Neonatale mobile
-
-Projet qui vise à informatiser la gestion des informations des patient dans des annexes medicales .
-
- -->
 
  <div>
   <img src="./assets/Readme/UMPO Logo.png" alt="Logo MIA" style="float: left; margin-right: 10px;" width="100px">
-
-  <img src="./assets/Readme/MIA Logo.jpg" alt="Logo UMP" style="float: left;" width="100px">
 </div>
 
 # DegiNeoNat
 
+  <div><img src="./assets/Readme/MIA Logo.jpg" alt="Logo UMP" style="float: right;margin-left: 10px;" width="100px"></div>
+
+
+
+
+# 
 Application mobile cross platform qui informatise la gestion des annexes medicales des patients au service neonatale du centre universitaire hospitalier
 
 ## Technologies & Outils
@@ -24,9 +23,9 @@ Application mobile cross platform qui informatise la gestion des annexes medical
 
 ## Présentation et rapport de l’application et demonstration
 
-[ Voir ici ](https://drive.google.com/drive/u/0/folders/13ADhPBIzSwF41a5F7SMFwly-PgCNRyAb)
+- Vous pouvez les voir ici via ce [ lien ](https://drive.google.com/drive/u/0/folders/13ADhPBIzSwF41a5F7SMFwly-PgCNRyAb)
 
-## Features
+## Caractéristiques
 
 - Mode plein écran : Permet de visualiser les informations médicales de manière plus détaillée en utilisant le mode plein écran pour faciliter la lecture et l'analyse.
 
@@ -41,13 +40,11 @@ Application mobile cross platform qui informatise la gestion des annexes medical
 - Suivi des patients : Permet de suivre l'évolution des patients au fil du temps, d'enregistrer les données de croissance, les médicaments administrés, les allergies, les rendez-vous médicaux, etc.
 
 ## Screenshots
-- Interface d'authentification 
+| Nom d'interface                               | Image                                              |
+| ------------------------------------- | -------------------------------------------------- |
+| Interface d'authentification           | ![Login](./assets/Readme/login.jpeg)               |
+| Interface principale qui contient les fiches à manipuler et gérer | ![Dashboard](./assets/Readme/Dashboard.jpeg)      |
 
-![Login](./assets/Readme/login.jpeg) 
-
-- Interface principale qui contient les fiches à manipuler 
-
-![Dashbard](./assets/Readme/Dashboard.jpeg)
 
 | Nom | Fiche  |
 |--------------------|---------------------------------|
@@ -83,6 +80,7 @@ Install my-project with npm
 ``` -->
 
 
+- Interface pour gérer les fiches insérées
 
 
-
+![](./assets/Readme/list_fiches.jpeg)
