@@ -2,7 +2,7 @@
   <div>
     <img src="./assets/Readme/UMPO Logo.png" alt="Logo MIA" align="left" width="100px" style="margin-right: 10px;">
   </div>
-    <h1>DigiNeoNat</h1>
+ 
   <div>
     <img src="./assets/Readme/MIA Logo.jpg" alt="Logo UMP" align="right" width="100px" style="margin-left: 10px;">
   </div>
@@ -10,13 +10,7 @@
 </div>
 
 
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
+
 ---
 ---
 ---
@@ -28,8 +22,7 @@
 ---
 
 
-
-# DegiNeoNat
+<h1 align=center >  DegiNeoNat </h1>
 Application mobile cross-platform qui informatise la gestion des annexes médicales des patients au service néonatal du centre universitaire hospitalier.
 
 
