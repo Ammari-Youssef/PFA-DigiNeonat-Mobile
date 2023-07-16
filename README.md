@@ -22,7 +22,7 @@
 ---
 
 
-<h1 align=center >  DegiNeoNat </h1>
+<h1 align=center >  DigiNeoNat </h1>
 Application mobile cross-platform qui informatise la gestion des annexes médicales des patients au service néonatal du centre universitaire hospitalier.
 
 
