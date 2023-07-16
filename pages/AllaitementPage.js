@@ -261,7 +261,7 @@ export default function AllaitementPage() {
     // }
     setLoading(true)
     const payloadFicheAllaitmentData = {
-      date: date,
+      date: date.split('/').reverse().join('/'),
       ip: parseInt(idPatient),
       prenomMere: mother,
       prematurity: prematurity,
@@ -302,11 +302,12 @@ export default function AllaitementPage() {
         console.error('Error submitting form data and table data:', error);
         console.error('Error response:', error.response.data);
         setLoading(false)
+        
         // Show an error message to the user
         Toast.show({
           type: 'info',
           text1: 'Erreur est survenu',
-          position: 'top',
+          position: 'bottom',
           visibilityTime: 3000,
         });
         // Show error message or perform any other actions
@@ -320,7 +321,6 @@ export default function AllaitementPage() {
 
     setTimeout(() => {
       setLoading(false);
-      //     // Alert.alert('Success', 'Insertion de la fiche réussie', [{ text: "ok", onPress: () => console.log('OK Pressed') }]);
 
 
       Toast.show({

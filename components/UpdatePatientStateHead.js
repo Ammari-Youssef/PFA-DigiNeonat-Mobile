@@ -150,7 +150,7 @@ export default function UpdatePatientStatePage(props) {
                 <Text style={styles.label}>Provenance:</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Généré du Dossier (Backend)"
+                    placeholder=""
                     value={provenance}
                     onChangeText={handleProvenanceChange}
                 />

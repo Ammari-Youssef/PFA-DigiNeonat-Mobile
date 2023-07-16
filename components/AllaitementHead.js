@@ -55,7 +55,7 @@ export default function AllaitementHead(props) {
             } catch (error) {
                 console.error('Error retrieving data:', error);
               
-                setMotherName(' maman de ce patient n\'existe pas ');
+                // setMotherName(' maman de ce patient n\'existe pas ');
 
             }
         };
@@ -188,13 +188,13 @@ useEffect(()=>{
             </View>
             <View style={styles.row}>
                 <Text style={styles.label}>Né du madame:  </Text>
-                {motherName}
-                {/* <TextInput
+                {/* {motherName} */}
+                <TextInput
                     style={styles.input}
                     placeholder="Insérer nom maman"
                     onChangeText={(text) => setMotherName(text)}
                     value={motherName}
-                /> */}
+                />
 
             </View>
             <View style={styles.row}>
@@ -241,7 +241,8 @@ useEffect(()=>{
                 buttonStyle={styles.button}
                 titleStyle={styles.buttonText}
             /> */}
-            <Toast ref={(ref) => Toast.setRef(ref)} />
+            
+            {/* <Toast ref={(ref) => Toast.setRef(ref)} /> */}
 
         </View>
     )
