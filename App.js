@@ -69,7 +69,7 @@ function App() {
             <Stack.Screen name="fiche_surveillance" component={FSJ} options={{ title: 'Fiche de surveillance journalière', }} />
             <Stack.Screen name="fiche_surveillance_d_a_c" component={DacPage} options={{ title: 'Fiche de surveillance D.A.C', }} />
             <Stack.Screen name="fiche_mesure" component={InterfaceMesure} options={{ title: 'Fiche des mesures', }} />
-            <Stack.Screen name="FileList" component={FileListPage} options={{ title: 'List des fiches', }} />
+            <Stack.Screen name="FileList" component={FileListPage} options={{ title: 'Liste des fiches correspondantes', }} />
 
 
           </>
